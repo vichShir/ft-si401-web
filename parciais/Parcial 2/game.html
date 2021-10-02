@@ -55,7 +55,7 @@
               <div>
                 <img src="images/icons/square-matrix.png" alt="tamanho-tabuleiro">
                 <!-- Valores arbitrarios (serao redefinidos na Parcial 2) -->
-                <select name="tabsize">
+                <select name="tabsize" onchange="mostrarBombas();">
                   <option value="5x5">5x5</option>
                   <option value="6x6">6x6</option>
                   <option value="7x7">7x7</option>
@@ -68,12 +68,8 @@
               <div>
                 <img src="images/icons/round-bomb_byFreepik.png" alt="numero-bombas">
                 <!-- Valores arbitrarios (serao redefinidos na Parcial 2) -->
-                <select name="qtdbombs">
-                  <option value="b3">3</option>
-                  <option value="b4">4</option>
-                  <option value="b12">12</option>
-                  <option value="b20">20</option>
-                  <option value="b28">28</option>
+                <select id="select-bombas" name="qtdbombs">
+                  
                 </select>
               </div>
               <!-- Modo Jogo -->
