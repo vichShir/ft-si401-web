@@ -48,7 +48,7 @@
           <h4>Escolha seu jogo:</h4>
 
           <!-- Formulário para definir Jogo -->
-          <form name="formulario" onsubmit="">
+          <form name="formulario-jogo" onsubmit="return false;">
             <!-- Organizar as opções em linha -->
             <div class="form-options">
               <!-- TabSize -->
@@ -87,7 +87,7 @@
             </div>
 
             <!-- Botão para definir Jogo -->
-            <input id="form-button" type="submit" value="Iniciar Jogo">
+            <input id="form-button" type="submit" onclick="iniciarJogo();" value="Iniciar Jogo">
 
           </form>
         </section>
@@ -119,7 +119,7 @@
         </section>
 
         <!-- Implementar Tabuleiro Aqui -->
-        <h1>Jogo</h1>
+        <table id="tabela"></table>
         
         <!-- Historico Jogadores -->
         <h2>Histórico</h2>
