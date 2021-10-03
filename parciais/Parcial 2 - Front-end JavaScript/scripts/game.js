@@ -5,23 +5,40 @@ function mostrarBombas()
 
     var linhas = getTabelaDim()[0];
     var colunas = getTabelaDim()[1];
+    var tamanhoTabuleiro = linhas * colunas; 
 
     selectBombs.innerHTML = "";
     // Definir as opções
-    if (linhas <= 7 && colunas <= 7)
+    if (tamanhoTabuleiro <= 30)
     {
-        conteudo_select += "<option value='b3'>3</option>";
-        conteudo_select += "<option value='b4'>4</option>";
-        conteudo_select += "<option value='b5'>5</option>";
+        conteudo_select = gerarOpcoesBombas([2, 3, 4]);
+    }
+    else if (tamanhoTabuleiro > 30 && tamanhoTabuleiro <= 56)
+    {
+        conteudo_select = gerarOpcoesBombas([5, 6, 7, 8]);
+    }
+    else if (tamanhoTabuleiro > 56 && tamanhoTabuleiro <= 100)
+    {
+        conteudo_select = gerarOpcoesBombas([9, 10, 11]);
     }
     else
     {
-        conteudo_select += "<option value='b10'>10</option>";
-        conteudo_select += "<option value='b12'>12</option>";
-        conteudo_select += "<option value='b15'>15</option>";
+        conteudo_select = gerarOpcoesBombas([12, 13, 14]);
     }
 
     selectBombs.innerHTML = conteudo_select;
+}
+
+function gerarOpcoesBombas(listaValores)
+{
+    var htmlOptions = "";
+
+    for (var i = 0; i < listaValores.length; i++)
+    {
+        htmlOptions += "<option value='b" + listaValores[i] + "'>" + listaValores[i] + "</option>";
+    }
+
+    return htmlOptions;
 }
 
 function getTabelaDim()
