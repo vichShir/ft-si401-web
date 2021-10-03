@@ -1,3 +1,6 @@
+
+"use strict";
+
 function mostrarBombas()
 {
     var selectBombs = document.getElementById("select-bombas");
@@ -35,7 +38,7 @@ function gerarOpcoesBombas(listaValores)
 
     for (var i = 0; i < listaValores.length; i++)
     {
-        htmlOptions += "<option value='b" + listaValores[i] + "'>" + listaValores[i] + "</option>";
+        htmlOptions += "<option value='" + listaValores[i] + "'>" + listaValores[i] + "</option>";
     }
 
     return htmlOptions;
@@ -58,11 +61,20 @@ function getTabelaDim()
 
 function iniciarJogo()
 {
-    var linhas = getTabelaDim()[0];
-    var colunas = getTabelaDim()[1];
+    var forms = new GameForm("formulario-jogo");
+    forms.defineGameSettings();
+
+    var linhas = forms.getTabRows;
+    var colunas = forms.getTabColumns;
+    var qtdbombs = forms.getNumBombs;
+    var gamemode = forms.getGameMode;
+
+    console.log(linhas + "/" + colunas);
+    console.log(qtdbombs);
+    console.log(gamemode);
 
     montarTabela(linhas, colunas);
-    teste_recursivo(2, 4);
+    //teste_recursivo(2, 4);
 }
 
 function teste_recursivo(l, c)
@@ -95,8 +107,6 @@ function teste_recursivo(l, c)
 
 function montarTabela(linhas, colunas)
 {
-    var bombas = [[1, 3], [1, 4]];
-
     var tabela = document.getElementById("tabela");
     var conteudo_tabela = "";
 
@@ -105,11 +115,7 @@ function montarTabela(linhas, colunas)
         conteudo_tabela += "<tr>";
         for (var coluna = 0; coluna < colunas; coluna++)
         {
-            bombs = bombas[1];
-            blinha = bombs[0];
-            bcoluna = bombs[1];
-
-            if (linha == blinha && coluna == bcoluna)
+            if (linha == 1 && coluna == 1)
             {
                 conteudo_tabela += "<td class='blocked'>1</td>";
             }
