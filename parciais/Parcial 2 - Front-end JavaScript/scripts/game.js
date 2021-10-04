@@ -1,153 +1,74 @@
 
 "use strict";
 
-function mostrarBombas()
+class Tabuleiro
 {
-    var selectBombs = document.getElementById("select-bombas");
-    var conteudo_select = "";
+    constructor(tableName, linhas, colunas)
+    {
+        this._tabela = document.getElementById(tableName);
+        this._matrix;
+        this._linhas = linhas;
+        this._colunas = colunas;
 
-    var linhas = getTabelaDim()[0];
-    var colunas = getTabelaDim()[1];
-    var tamanhoTabuleiro = linhas * colunas; 
-
-    selectBombs.innerHTML = "";
-    // Definir as opções
-    if (tamanhoTabuleiro <= 30)
-    {
-        conteudo_select = gerarOpcoesBombas([2, 3, 4]);
-    }
-    else if (tamanhoTabuleiro > 30 && tamanhoTabuleiro <= 56)
-    {
-        conteudo_select = gerarOpcoesBombas([5, 6, 7, 8]);
-    }
-    else if (tamanhoTabuleiro > 56 && tamanhoTabuleiro <= 100)
-    {
-        conteudo_select = gerarOpcoesBombas([9, 10, 11]);
-    }
-    else
-    {
-        conteudo_select = gerarOpcoesBombas([12, 13, 14]);
+        this.assembleTable();
     }
 
-    selectBombs.innerHTML = conteudo_select;
-}
-
-function gerarOpcoesBombas(listaValores)
-{
-    var htmlOptions = "";
-
-    for (var i = 0; i < listaValores.length; i++)
+    assembleTable()
     {
-        htmlOptions += "<option value='" + listaValores[i] + "'>" + listaValores[i] + "</option>";
-    }
+        this.createMatrix();
 
-    return htmlOptions;
-}
-
-function getTabelaDim()
-{
-    var myForm = document.forms["formulario-jogo"];
-
-    var selection = myForm["tabsize"];
-    var tabsize = selection[selection.selectedIndex].value;
-
-    var linhas = parseInt(tabsize.split("x")[0]);
-    var colunas = parseInt(tabsize.split("x")[1]);
-
-    var dim = [linhas, colunas];
-
-    return dim;
-}
-
-function iniciarJogo()
-{
-    var forms = new GameForm("formulario-jogo");
-    forms.defineGameSettings();
-
-    var linhas = forms.getTabRows;
-    var colunas = forms.getTabColumns;
-    var qtdbombs = forms.getNumBombs;
-    var gamemode = forms.getGameMode;
-
-    console.log(linhas + "/" + colunas);
-    console.log(qtdbombs);
-    console.log(gamemode);
-
-    montarTabela(linhas, colunas);
-    //teste_recursivo(2, 4);
-}
-
-function teste_recursivo(l, c)
-{
-    var linhas = getTabelaDim()[0];
-    var colunas = getTabelaDim()[1];
-
-    for (var i = l - 1; i <= l + 1; i++) 
-    {
-        for (var j = c - 1; j <= c + 1; j++) 
+        var conteudo_tabela = "";
+        for (var linha = 0; linha < this._linhas; linha++)
         {
-            if (i >= 0 && i < linhas && j >= 0 && j < colunas)
-            {
-                console.log(i, j);
-                //console.log(tabela.rows[i].cells[j].className = "A");
-                console.log(tabela.rows[i].cells[j].innerHTML = "x");
-
-                if (tabela.rows[i].cells[j].innerHTML === "")
-                {
-                    teste_recursivo(i, j);
-                }
-                else
-                {
-                    console.log("PARADA");
-                }
-            }
-        }
-    }
-}
-
-function montarTabela(linhas, colunas)
-{
-    var tabela = document.getElementById("tabela");
-    var conteudo_tabela = "";
-
-    for (var linha = 0; linha < linhas; linha++)
-    {
-        conteudo_tabela += "<tr>";
-        for (var coluna = 0; coluna < colunas; coluna++)
-        {
-            if (linha == 1 && coluna == 1)
-            {
-                conteudo_tabela += "<td class='blocked'>1</td>";
-            }
-            else
+            conteudo_tabela += "<tr>";
+            for (var coluna = 0; coluna < this._colunas; coluna++)
             {
                 conteudo_tabela += "<td class='blocked'></td>";
             }
+            conteudo_tabela += "</tr>";
         }
-        conteudo_tabela += "</tr>";
+
+        this._tabela.innerHTML = conteudo_tabela;
     }
 
-    tabela.innerHTML = conteudo_tabela;
+    createMatrix()
+    {
+        this._matrix = new Array(this._linhas);
+
+        for (var i = 0; i < this._matrix.length; i++)
+        {
+            this._matrix[i] = new Array(this._colunas).fill(0);
+        }
+
+        console.log(this._matrix);
+    }
 }
 
+class CampoMinado extends Tabuleiro
+{
+    constructor(tableName, linhas, colunas, qtdBombas, gameMode)
+    {
+        super(tableName, linhas, colunas);
+        this._numBombs = qtdBombas;
+        this._gameMode = gameMode;
 
+        this._tabela.onclick = this.onClickCell;
+    }
 
+    onClickCell(event)
+    {
+        var cell = event.target;
+        var linha = cell.parentNode.rowIndex;
+        var coluna = cell.cellIndex;
 
+        CampoMinado.verifyCell(linha, coluna);
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    static verifyCell(linha, coluna)
+    {
+        console.log(linha + "x" + coluna);
+    }
+}
 
 
 /*

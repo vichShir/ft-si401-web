@@ -8,6 +8,7 @@
     <link href="styles/footer-style.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="scripts/formulario-game.js"></script>
     <script type="text/javascript" src="scripts/game.js"></script>
+    <script type="text/javascript" src="scripts/game-manager.js"></script>
     <!-- Importando fontes Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,7 +57,7 @@
               <div>
                 <img src="images/icons/square-matrix.png" alt="tamanho-tabuleiro">
                 <!-- Valores arbitrarios (serao redefinidos na Parcial 2) -->
-                <select name="tabsize" onchange="mostrarBombas();">
+                <select name="tabsize" onchange="updateBombsOptions();">
                   <option value="5x5">5x5</option>
                   <option value="5x6">5x6</option>
                   <option value="6x6">6x6</option>
@@ -92,7 +93,7 @@
             </div>
 
             <!-- Botão para definir Jogo -->
-            <input id="form-button" type="submit" onclick="iniciarJogo();" value="Iniciar Jogo">
+            <input id="form-button" type="submit" onclick="initGameButton();" value="Iniciar Jogo">
 
           </form>
         </section>

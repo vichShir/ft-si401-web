@@ -93,10 +93,50 @@ class GameForm extends GameSettings
 		this.setGameMode = qtdbombsValue;
 	}
 
-	defineGameSettings()
+	updateGameSettings()
 	{
 		this.#defineTabSize();
 		this.#defineNumBombs();
 		this.#defineGameMode();
+	}
+
+	static updateBombsOptions(linhas, colunas)
+	{
+	    var selectBombs = document.getElementById("select-bombas");
+	    var conteudo_select = "";
+	    var tamanhoTabuleiro = linhas * colunas; 
+	    
+	    selectBombs.innerHTML = "";
+	    // Definir as opções
+	    if (tamanhoTabuleiro <= 30)
+	    {
+	        conteudo_select = this.#gerarOpcoesBombas([2, 3, 4]);
+	    }
+	    else if (tamanhoTabuleiro > 30 && tamanhoTabuleiro <= 56)
+	    {
+	        conteudo_select = this.#gerarOpcoesBombas([5, 6, 7, 8]);
+	    }
+	    else if (tamanhoTabuleiro > 56 && tamanhoTabuleiro <= 100)
+	    {
+	        conteudo_select = this.#gerarOpcoesBombas([9, 10, 11]);
+	    }
+	    else
+	    {
+	        conteudo_select = this.#gerarOpcoesBombas([12, 13, 14]);
+	    }
+
+	    selectBombs.innerHTML = conteudo_select;
+	}
+
+	static #gerarOpcoesBombas(listaValores)
+	{
+	    var htmlOptions = "";
+
+	    for (var i = 0; i < listaValores.length; i++)
+	    {
+	        htmlOptions += "<option value='" + listaValores[i] + "'>" + listaValores[i] + "</option>";
+	    }
+
+	    return htmlOptions;
 	}
 }
