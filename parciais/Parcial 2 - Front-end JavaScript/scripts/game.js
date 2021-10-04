@@ -52,9 +52,22 @@ class CampoMinado extends Tabuleiro
         this._numBombs = qtdBombas;
         this._gameMode = gameMode;
 
+        this.#configureGameMode();
         this.#generateBombs();
+    }
 
-        this._tabela.onclick = this.#onClickCell;
+    #configureGameMode()
+    {
+        if(this._gameMode === "rivotril")
+        {
+            GameInfo.showTimerDiv();
+        }
+        else
+        {
+            GameInfo.hideTimerDiv();
+        }
+
+        GameInfo.showGameInfo();
     }
 
     /*|*******************************|*/
@@ -87,21 +100,50 @@ class CampoMinado extends Tabuleiro
         return Math.floor(Math.random() * this._colunas);
     }
 
+    // Gerar celulas com numeros de bombas na vizinhanca
+
+
     /*|*******************************|*/
     /*| Verificacao da acao do player |*/
     /*|*******************************|*/
-    #onClickCell(event)
+    set setTableOnClick(onClickFunc)
     {
-        var cell = event.target;
-        var linha = cell.parentNode.rowIndex;
-        var coluna = cell.cellIndex;
-
-        CampoMinado.verifyCell(linha, coluna);
+        this._tabela.onclick = onClickFunc;
     }
 
-    static verifyCell(linha, coluna)
+    verifyCell(linha, coluna)
     {
         console.log(linha + "x" + coluna);
+    }
+}
+
+class GameInfo
+{   
+    static #SEC_INFO_NAME = "game-info";
+    static #DIV_TIMER_NAME = "game-div-timer";
+
+    static hideGameInfo()
+    {
+        var _gameInfoSection = document.getElementById(this.#SEC_INFO_NAME);
+        _gameInfoSection.style.display = "none";
+    }
+
+    static showGameInfo()
+    {
+        var _gameInfoSection = document.getElementById(this.#SEC_INFO_NAME);
+        _gameInfoSection.style.display = "block";
+    }
+
+    static hideTimerDiv()
+    {
+        var _timerDiv = document.getElementById(this.#DIV_TIMER_NAME);
+        _timerDiv.style.display = "none";
+    }
+
+    static showTimerDiv()
+    {
+        var _timerDiv = document.getElementById(this.#DIV_TIMER_NAME);
+        _timerDiv.style.display = "flex";
     }
 }
 

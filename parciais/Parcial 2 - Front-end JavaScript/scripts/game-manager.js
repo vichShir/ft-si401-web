@@ -8,6 +8,7 @@ var game;
 function init()
 {
     forms = new GameForm("formulario-jogo");
+    GameInfo.hideGameInfo();
 }
 
 function updateSettings()
@@ -34,6 +35,16 @@ function initGameButton()
     console.log(gamemode);
 
     game = new CampoMinado("tabela", linhas, colunas, qtdbombs, gamemode);
+    game.setTableOnClick = onClickCell;
+}
+
+function onClickCell(event)
+{
+    var cell = event.target;
+    var linha = cell.parentNode.rowIndex;
+    var coluna = cell.cellIndex;
+
+    game.verifyCell(linha, coluna);
 }
 
 onload = init;
