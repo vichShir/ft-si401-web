@@ -10,12 +10,12 @@ class Tabuleiro
         this._linhas = linhas;
         this._colunas = colunas;
 
-        this.assembleTable();
+        this.#assembleTable();
     }
 
-    assembleTable()
+    #assembleTable()
     {
-        this.createMatrix();
+        this.#createMatrix();
 
         var conteudo_tabela = "";
         for (var linha = 0; linha < this._linhas; linha++)
@@ -31,7 +31,7 @@ class Tabuleiro
         this._tabela.innerHTML = conteudo_tabela;
     }
 
-    createMatrix()
+    #createMatrix()
     {
         this._matrix = new Array(this._linhas);
 
@@ -52,10 +52,45 @@ class CampoMinado extends Tabuleiro
         this._numBombs = qtdBombas;
         this._gameMode = gameMode;
 
-        this._tabela.onclick = this.onClickCell;
+        this.#generateBombs();
+
+        this._tabela.onclick = this.#onClickCell;
     }
 
-    onClickCell(event)
+    /*|*******************************|*/
+    /*| Configuracao do Campo Minado  |*/
+    /*|*******************************|*/
+    #generateBombs()
+    {
+        for (var b = 0; b < this._numBombs;)
+        {
+            var linha = this.#genRandomRow();
+            var coluna = this.#genRandomColumn();
+            if (this._matrix[linha][coluna] === 0) 
+            {
+                console.log(linha + "x" + coluna);
+                this._matrix[linha][coluna] = -1;
+                b++;
+            }
+        }
+
+        console.log(this._matrix);
+    }
+
+    #genRandomRow()
+    {
+        return Math.floor(Math.random() * this._linhas);
+    }
+
+    #genRandomColumn()
+    {
+        return Math.floor(Math.random() * this._colunas);
+    }
+
+    /*|*******************************|*/
+    /*| Verificacao da acao do player |*/
+    /*|*******************************|*/
+    #onClickCell(event)
     {
         var cell = event.target;
         var linha = cell.parentNode.rowIndex;
