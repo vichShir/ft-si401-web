@@ -15,6 +15,7 @@ class Time
 		this._myEngine = new Timer();
 	}
 
+	// Metodo de TESTE
 	helloWorld()
 	{
 		this._myEngine.helloWorld();
@@ -28,6 +29,7 @@ class StopWatch
 
 	}
 
+	// Metodo de TESTE
 	helloWorld()
 	{
 		console.log("Eu sou um StopWatch!");
@@ -41,6 +43,7 @@ class Timer
 		
 	}
 
+	// Metodo de TESTE
 	helloWorld()
 	{
 		console.log("Eu sou um Timer!");

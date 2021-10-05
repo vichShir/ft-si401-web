@@ -39,8 +39,6 @@ class Tabuleiro
         {
             this._matrix[i] = new Array(this._colunas).fill(0);
         }
-
-        console.log(this._matrix);
     }
 }
 
@@ -57,11 +55,19 @@ class CampoMinado extends Tabuleiro
 
     initializer()
     {
+        console.log("Initializer");
+
         this.#configureGameMode();
         this.#configureGameTime();
         this.#generateBombs();
+        this.#genNumbers();
+
+        console.log(this._matrix);
     }
 
+    /*|*******************************|*/
+    /*| Configuracao do Campo Minado  |*/
+    /*|*******************************|*/
     #configureGameMode()
     {
         if(this._gameMode === "rivotril")
@@ -78,9 +84,10 @@ class CampoMinado extends Tabuleiro
     {
         /**** Game Time Settings ****/
 
-        // Modo Rivotril (Stopwatch & Timer)
         if(this._gameMode === "rivotril")
         {
+            /* Modo Rivotril (Stopwatch & Timer) */
+
             // Mostrar Timer em Game Info
             GameInfo.showTimerDiv();
 
@@ -96,8 +103,10 @@ class CampoMinado extends Tabuleiro
             this._stopwatch.helloWorld();
             this._timer.helloWorld();
         }
-        else // Modo Clássico (Stopwatch)
+        else
         {
+            /* Modo Clássico (Stopwatch) */
+
             // Esconder Timer de Game Info
             GameInfo.hideTimerDiv();
 
@@ -112,9 +121,6 @@ class CampoMinado extends Tabuleiro
         GameInfo.showGameInfo();
     }
 
-    /*|*******************************|*/
-    /*| Configuracao do Campo Minado  |*/
-    /*|*******************************|*/
     #generateBombs()
     {
         for (var b = 0; b < this._numBombs;)
@@ -131,8 +137,6 @@ class CampoMinado extends Tabuleiro
                 this._tabela.rows[linha].cells[coluna].innerHTML = "&#128163";
             }
         }
-
-        console.log(this._matrix);
     }
 
     #genRandomRow()
@@ -146,6 +150,42 @@ class CampoMinado extends Tabuleiro
     }
 
     // Gerar celulas com numeros de bombas na vizinhanca
+    #genNumber(l, c)
+    {
+        var count = 0;
+        for (var i = l - 1; i <= l + 1; i++) 
+        {
+            for (var j = c - 1; j <= c + 1; j++) 
+            {
+                if (i >= 0 && i < this._linhas && j >= 0 && j < this._colunas) 
+                {
+                    if (this._matrix[i][j] === -1) 
+                    {
+                        count++;
+                    }
+                }
+            }
+        }
+
+        this._matrix[l][c] = count;
+
+        // TESTE
+        this._tabela.rows[l].cells[c].innerHTML = count;
+    }
+
+    #genNumbers()
+    {
+        for (var i = 0; i < this._linhas; i++) 
+        {
+            for (var j = 0; j < this._colunas; j++) 
+            {
+                if (this._matrix[i][j] !== -1) 
+                {
+                    this.#genNumber(i, j);
+                }
+            }
+        }
+    }
 
 
     /*|*******************************|*/
@@ -159,6 +199,14 @@ class CampoMinado extends Tabuleiro
     verifyCell(linha, coluna)
     {
         console.log(linha + "x" + coluna);
+    }
+
+    /*|*******************************|*/
+    /*|           Trapaça             |*/
+    /*|*******************************|*/
+    ativarTrapaca()
+    {
+
     }
 }
 
