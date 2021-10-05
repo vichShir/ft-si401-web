@@ -51,8 +51,14 @@ class CampoMinado extends Tabuleiro
         super(tableName, linhas, colunas);
         this._numBombs = qtdBombas;
         this._gameMode = gameMode;
+        this._stopwatch; // Cronômetro
+        this._timer; // Temporizador
+    }
 
+    initializer()
+    {
         this.#configureGameMode();
+        this.#configureGameTime();
         this.#generateBombs();
     }
 
@@ -60,13 +66,49 @@ class CampoMinado extends Tabuleiro
     {
         if(this._gameMode === "rivotril")
         {
-            GameInfo.showTimerDiv();
+            // Rivotril
         }
         else
         {
+            // Clássico
+        }
+    }
+
+    #configureGameTime()
+    {
+        /**** Game Time Settings ****/
+
+        // Modo Rivotril (Stopwatch & Timer)
+        if(this._gameMode === "rivotril")
+        {
+            // Mostrar Timer em Game Info
+            GameInfo.showTimerDiv();
+
+            // Criar stopwatch e timer
+            this._stopwatch = new Time();
+            this._timer = new Time();
+
+            // Definindo suas engines
+            this._stopwatch.setEngineToStopWatch();
+            this._timer.setEngineToTimer();
+
+            // Teste de engine
+            this._stopwatch.helloWorld();
+            this._timer.helloWorld();
+        }
+        else // Modo Clássico (Stopwatch)
+        {
+            // Esconder Timer de Game Info
             GameInfo.hideTimerDiv();
+
+            this._stopwatch = new Time();
+            this._stopwatch.setEngineToStopWatch();
+
+            // Teste de engine
+            this._stopwatch.helloWorld();
         }
 
+        // Mostrar o painel de Game Info
         GameInfo.showGameInfo();
     }
 
@@ -84,6 +126,9 @@ class CampoMinado extends Tabuleiro
                 console.log(linha + "x" + coluna);
                 this._matrix[linha][coluna] = -1;
                 b++;
+
+                // TESTE
+                this._tabela.rows[linha].cells[coluna].innerHTML = "&#128163";
             }
         }
 
