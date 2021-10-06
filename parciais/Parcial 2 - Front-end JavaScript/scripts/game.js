@@ -92,16 +92,8 @@ class CampoMinado extends Tabuleiro
             GameInfo.showTimerDiv();
 
             // Criar stopwatch e timer
-            this._stopwatch = new Time();
-            this._timer = new Time();
-
-            // Definindo suas engines
-            this._stopwatch.setEngineToStopWatch();
-            this._timer.setEngineToTimer();
-
-            // Teste de engine
-            this._stopwatch.helloWorld();
-            this._timer.helloWorld();
+            this._stopwatch = new StopWatch();
+            this._timer = new Timer();
         }
         else
         {
@@ -110,11 +102,8 @@ class CampoMinado extends Tabuleiro
             // Esconder Timer de Game Info
             GameInfo.hideTimerDiv();
 
-            this._stopwatch = new Time();
-            this._stopwatch.setEngineToStopWatch();
-
-            // Teste de engine
-            this._stopwatch.helloWorld();
+            // Criar stopwatch
+            this._stopwatch = new StopWatch();
         }
 
         // Mostrar o painel de Game Info
