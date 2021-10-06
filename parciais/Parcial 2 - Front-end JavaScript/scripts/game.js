@@ -40,6 +40,74 @@ class Tabuleiro
             this._matrix[i] = new Array(this._colunas).fill(0);
         }
     }
+
+    _genBombs(numBombs)
+    {
+        var b = 0; 
+        while (b < numBombs)
+        {
+            var linha = this.#genRandomRow();
+            var coluna = this.#genRandomColumn();
+
+            if (this._matrix[linha][coluna] === 0) 
+            {
+                console.log(linha + "x" + coluna);
+                this._matrix[linha][coluna] = -1;
+                b++;
+
+                // TESTE
+                this._tabela.rows[linha].cells[coluna].innerHTML = "&#128163";
+            }
+        }
+    }
+
+    #genRandomRow()
+    {
+        return Math.floor(Math.random() * this._linhas);
+    }
+
+    #genRandomColumn()
+    {
+        return Math.floor(Math.random() * this._colunas);
+    }
+
+    // Gerar celulas com numeros de bombas na vizinhanca
+    _genNumbers()
+    {
+        for (var i = 0; i < this._linhas; i++) 
+        {
+            for (var j = 0; j < this._colunas; j++) 
+            {
+                if (this._matrix[i][j] !== -1) 
+                {
+                    this.#genNumber(i, j);
+                }
+            }
+        }
+    }
+
+    #genNumber(l, c)
+    {
+        var count = 0;
+        for (var i = l - 1; i <= l + 1; i++) 
+        {
+            for (var j = c - 1; j <= c + 1; j++) 
+            {
+                if (i >= 0 && i < this._linhas && j >= 0 && j < this._colunas) 
+                {
+                    if (this._matrix[i][j] === -1) 
+                    {
+                        count++;
+                    }
+                }
+            }
+        }
+
+        this._matrix[l][c] = count;
+
+        // TESTE
+        this._tabela.rows[l].cells[c].innerHTML = count;
+    }
 }
 
 class CampoMinado extends Tabuleiro
@@ -57,10 +125,9 @@ class CampoMinado extends Tabuleiro
     {
         console.log("Initializer");
 
-        this.#configureGameMode();
         this.#configureGameTime();
-        this.#generateBombs();
-        this.#genNumbers();
+        this._genBombs(this._numBombs);
+        this._genNumbers();
 
         console.log(this._matrix);
     }
@@ -68,18 +135,6 @@ class CampoMinado extends Tabuleiro
     /*|*******************************|*/
     /*| Configuracao do Campo Minado  |*/
     /*|*******************************|*/
-    #configureGameMode()
-    {
-        if(this._gameMode === "rivotril")
-        {
-            // Rivotril
-        }
-        else
-        {
-            // Clássico
-        }
-    }
-
     #configureGameTime()
     {
         /**** Game Time Settings ****/
@@ -110,72 +165,6 @@ class CampoMinado extends Tabuleiro
         GameInfo.showGameInfo();
     }
 
-    #generateBombs()
-    {
-        for (var b = 0; b < this._numBombs;)
-        {
-            var linha = this.#genRandomRow();
-            var coluna = this.#genRandomColumn();
-            if (this._matrix[linha][coluna] === 0) 
-            {
-                console.log(linha + "x" + coluna);
-                this._matrix[linha][coluna] = -1;
-                b++;
-
-                // TESTE
-                this._tabela.rows[linha].cells[coluna].innerHTML = "&#128163";
-            }
-        }
-    }
-
-    #genRandomRow()
-    {
-        return Math.floor(Math.random() * this._linhas);
-    }
-
-    #genRandomColumn()
-    {
-        return Math.floor(Math.random() * this._colunas);
-    }
-
-    // Gerar celulas com numeros de bombas na vizinhanca
-    #genNumber(l, c)
-    {
-        var count = 0;
-        for (var i = l - 1; i <= l + 1; i++) 
-        {
-            for (var j = c - 1; j <= c + 1; j++) 
-            {
-                if (i >= 0 && i < this._linhas && j >= 0 && j < this._colunas) 
-                {
-                    if (this._matrix[i][j] === -1) 
-                    {
-                        count++;
-                    }
-                }
-            }
-        }
-
-        this._matrix[l][c] = count;
-
-        // TESTE
-        this._tabela.rows[l].cells[c].innerHTML = count;
-    }
-
-    #genNumbers()
-    {
-        for (var i = 0; i < this._linhas; i++) 
-        {
-            for (var j = 0; j < this._colunas; j++) 
-            {
-                if (this._matrix[i][j] !== -1) 
-                {
-                    this.#genNumber(i, j);
-                }
-            }
-        }
-    }
-
 
     /*|*******************************|*/
     /*| Verificacao da acao do player |*/
@@ -188,6 +177,11 @@ class CampoMinado extends Tabuleiro
     verifyCell(linha, coluna)
     {
         console.log(linha + "x" + coluna);
+    }
+
+    showMatrix()
+    {
+
     }
 
     /*|*******************************|*/
