@@ -130,21 +130,31 @@ class GameForm extends GameSettings
 	    selectBombs.innerHTML = "";
 
 	    // Definir as opções
-	    if (tamanhoTabuleiro <= 30)
+	    switch(tamanhoTabuleiro)
 	    {
-	        conteudo_select = this.#gerarOpcoesBombas([2, 3, 4]);
-	    }
-	    else if (tamanhoTabuleiro > 30 && tamanhoTabuleiro <= 56)
-	    {
-	        conteudo_select = this.#gerarOpcoesBombas([5, 6, 7, 8]);
-	    }
-	    else if (tamanhoTabuleiro > 56 && tamanhoTabuleiro <= 100)
-	    {
-	        conteudo_select = this.#gerarOpcoesBombas([9, 10, 11]);
-	    }
-	    else
-	    {
-	        conteudo_select = this.#gerarOpcoesBombas([12, 13, 14]);
+	    	case 25:
+	    		conteudo_select = this.#gerarOpcoesBombas([2, 3, 4]);
+	    		break;
+	    	case 30:
+	    		conteudo_select = this.#gerarOpcoesBombas([3, 4, 5]);
+	    		break;
+	    	case 36:
+	    		conteudo_select = this.#gerarOpcoesBombas([5, 6, 7]);
+	    		break;
+	    	case 49:
+	    		conteudo_select = this.#gerarOpcoesBombas([9, 10, 11]);
+	    		break;
+	    	case 64:
+	    		conteudo_select = this.#gerarOpcoesBombas([11, 12, 13]);
+	    		break;
+	    	case 81:
+	    		conteudo_select = this.#gerarOpcoesBombas([13, 14, 15]);
+	    		break;
+	    	case 100:
+	    		conteudo_select = this.#gerarOpcoesBombas([15, 18, 21]);
+	    		break;
+	    	default:
+	    		conteudo_select = this.#gerarOpcoesBombas([24, 30, 36]);
 	    }
 
 	    // Atualizar o conteúdo (opções) de bombas
