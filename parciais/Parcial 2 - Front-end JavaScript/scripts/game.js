@@ -117,6 +117,7 @@ class CampoMinado extends Tabuleiro
         super(tableName, linhas, colunas);
         this._numBombs = qtdBombas;
         this._gameMode = gameMode;
+        this._pscore = 0;
         this._stopwatch; // Cronômetro
         this._timer; // Temporizador
     }
@@ -124,6 +125,9 @@ class CampoMinado extends Tabuleiro
     initializer()
     {
         console.log("Initializer");
+
+        // Atualizar a pontuação do player
+        GameInfo.setPlayerScoreText = this._pscore;
 
         this.#configureGameTime();
         this._genBombs(this._numBombs);
@@ -197,6 +201,7 @@ class GameInfo
 {   
     static #SEC_INFO_NAME = "game-info";
     static #DIV_TIMER_NAME = "game-div-timer";
+    static #PLAYER_SCORE_NAME = "p-score";
 
     static hideGameInfo()
     {
@@ -220,6 +225,12 @@ class GameInfo
     {
         var _timerDiv = document.getElementById(this.#DIV_TIMER_NAME);
         _timerDiv.style.display = "flex";
+    }
+
+    static set setPlayerScoreText(score)
+    {
+        var _pscoreText = document.getElementById(this.#PLAYER_SCORE_NAME);
+        _pscoreText.innerHTML = "Pontuação: " + score;
     }
 }
 

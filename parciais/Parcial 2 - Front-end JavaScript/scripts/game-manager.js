@@ -1,6 +1,15 @@
 
 "use strict";
 
+/**
+ * Funcionalidades faltantes:
+ * - Sistema de time (Stopwatch & Timer)
+ * - Mostrar celulas (verificar celula)
+ * - Botão de trapaça
+ * - Contagem de pontuação
+ */
+
+
 /* Variáveis do game */
 var linhas, colunas, qtdbombs, gamemode;
 var forms;
