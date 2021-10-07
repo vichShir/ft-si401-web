@@ -118,6 +118,7 @@ class CampoMinado extends Tabuleiro
         this._numBombs = qtdBombas;
         this._gameMode = gameMode;
         this._pscore = 0;
+        this._opencells = 0;
         this._stopwatch; // Cronômetro
         this._timer; // Temporizador
     }
@@ -126,14 +127,22 @@ class CampoMinado extends Tabuleiro
     {
         console.log("Initializer");
 
-        // Atualizar a pontuação do player
-        GameInfo.setPlayerScoreText = this._pscore;
-
+        this.#updatePlayerScores();
         this.#configureGameTime();
         this._genBombs(this._numBombs);
         this._genNumbers();
 
         console.log(this._matrix);
+    }
+
+    /*|*******************************|*/
+    /*|  Pontuação e Células abertas  |*/
+    /*|*******************************|*/
+    #updatePlayerScores()
+    {
+        /* Atualizar pontuações do player */
+        GameInfo.setPlayerScoreText = this._pscore;
+        GameInfo.setOpenCellsText = this._opencells;
     }
 
     /*|*******************************|*/
@@ -202,6 +211,7 @@ class GameInfo
     static #SEC_INFO_NAME = "game-info";
     static #DIV_TIMER_NAME = "game-div-timer";
     static #PLAYER_SCORE_NAME = "p-score";
+    static #PLAYER_OPENCELLS_NAME = "p-opencells";
 
     static hideGameInfo()
     {
@@ -231,6 +241,12 @@ class GameInfo
     {
         var _pscoreText = document.getElementById(this.#PLAYER_SCORE_NAME);
         _pscoreText.innerHTML = "Pontuação: " + score;
+    }
+
+    static set setOpenCellsText(numOpenCells)
+    {
+        var _opencellsText = document.getElementById(this.#PLAYER_OPENCELLS_NAME);
+        _opencellsText.innerHTML = "Células abertas: " + numOpenCells;
     }
 }
 
