@@ -1,3 +1,10 @@
+
+"use strict";
+
+/**
+ * Classe responsável por controlar os detalhes do cronômetro:
+ * - 
+ * */
 class StopWatch
 {
 	constructor()
@@ -6,6 +13,10 @@ class StopWatch
 	}
 }
 
+/**
+ * Classe responsável por controlar os detalhes do temporizador:
+ * - 
+ * */
 class Timer
 {
 	constructor()

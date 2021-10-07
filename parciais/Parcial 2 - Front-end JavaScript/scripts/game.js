@@ -1,6 +1,14 @@
 
 "use strict";
 
+/**
+ * Classe responsável por controlar os detalhes do tabuleiro:
+ * - Conectar com a tag table
+ * - Criar as linhas e colunas na tag table
+ * - Criar uma matrix de controle
+ * - Gerar bombas aleatoriamente na matrix
+ * - Gerar o número de bombas na vizinhança na matrix
+ * */
 class Tabuleiro
 {
     constructor(tableName, linhas, colunas)
@@ -13,6 +21,9 @@ class Tabuleiro
         this.#assembleTable();
     }
 
+    /*|*******************************|*/
+    /*|        Tabela & Matrix        |*/
+    /*|*******************************|*/
     #assembleTable()
     {
         this.#createMatrix();
@@ -35,12 +46,17 @@ class Tabuleiro
     {
         this._matrix = new Array(this._linhas);
 
-        for (var i = 0; i < this._matrix.length; i++)
+        var i = 0;
+        while (i < this._matrix.length)
         {
             this._matrix[i] = new Array(this._colunas).fill(0);
+            i++;
         }
     }
 
+    /*|*******************************|*/
+    /*|  Geração aleatória de bombas  |*/
+    /*|*******************************|*/
     _genBombs(numBombs)
     {
         var b = 0; 
@@ -71,7 +87,9 @@ class Tabuleiro
         return Math.floor(Math.random() * this._colunas);
     }
 
-    // Gerar celulas com numeros de bombas na vizinhanca
+    /*|*******************************|*/
+    /*|   Número de bombas vizinhas   |*/
+    /*|*******************************|*/
     _genNumbers()
     {
         for (var i = 0; i < this._linhas; i++) 
@@ -86,12 +104,12 @@ class Tabuleiro
         }
     }
 
-    #genNumber(l, c)
+    #genNumber(linha, coluna)
     {
         var count = 0;
-        for (var i = l - 1; i <= l + 1; i++) 
+        for (var i = linha - 1; i <= linha + 1; i++) 
         {
-            for (var j = c - 1; j <= c + 1; j++) 
+            for (var j = coluna - 1; j <= coluna + 1; j++) 
             {
                 if (i >= 0 && i < this._linhas && j >= 0 && j < this._colunas) 
                 {
@@ -103,13 +121,22 @@ class Tabuleiro
             }
         }
 
-        this._matrix[l][c] = count;
+        this._matrix[linha][coluna] = count;
 
         // TESTE
-        this._tabela.rows[l].cells[c].innerHTML = count;
+        this._tabela.rows[linha].cells[coluna].innerHTML = count;
     }
 }
 
+/**
+ * Classe responsável por controlar os detalhes do game (campo minado):
+ * - Criar um tabuleiro (herança)
+ * - Definir as configurações iniciais
+ * - Atualizar as pontuações do player
+ * - Configurar timers
+ * - Verificar ações do player
+ * - Ativação de trapaça
+ * */
 class CampoMinado extends Tabuleiro
 {
     constructor(tableName, linhas, colunas, qtdBombas, gameMode)
@@ -206,6 +233,13 @@ class CampoMinado extends Tabuleiro
     }
 }
 
+/**
+ * Classe responsável por controlar as informações da partida:
+ * - Esconder e mostrar a seção do game-info
+ * - Esconder e mostrar o Timer (Rivotril)
+ * - Definir o texto para a pontuação
+ * - Definir o text para as células abertas
+ * */
 class GameInfo
 {   
     static #SEC_INFO_NAME = "game-info";

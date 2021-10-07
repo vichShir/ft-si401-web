@@ -1,6 +1,12 @@
 
 "use strict";
 
+/**
+ * Classe responsável por controlar as opções do game:
+ * - Define e retorna tamanho do tabuleiro (linhas e colunas)
+ * - Define e retorna número de bombas
+ * - Define e retorna modo do game
+ * */
 class GameSettings
 {
 	constructor ()
@@ -53,6 +59,13 @@ class GameSettings
 	}
 }
 
+/**
+ * Classe responsável por controlar os detalhes do formulário:
+ * - Criar um GameSettings (herança)
+ * - Estabelecer a conexão com os elementos do formulário
+ * - Coletar os dados do selection para TabSize, NumBombs e GameMode
+ * - Atualizar os dados do formulário
+ * */
 class GameForm extends GameSettings
 {
 	constructor (formName)
@@ -64,11 +77,10 @@ class GameForm extends GameSettings
 		this._selectionGameMode = this._myForm["mode"];
 	}
 
-	#getValueFromSelection(selection)
-	{
-	    return selection[selection.selectedIndex].value;
-	}
-
+	
+	/*|*******************************|*/
+    /*|        Coleta de dados        |*/
+    /*|*******************************|*/
 	#defineTabSize()
 	{
 	    var tabsize = this.#getValueFromSelection(this._selectionTabSize);
@@ -93,6 +105,14 @@ class GameForm extends GameSettings
 		this.setGameMode = qtdbombsValue;
 	}
 
+	#getValueFromSelection(selection)
+	{
+	    return selection[selection.selectedIndex].value;
+	}
+
+	/*|*******************************|*/
+    /*| Atualização dados formulário  |*/
+    /*|*******************************|*/
 	updateGameSettings()
 	{
 		this.#defineTabSize();
@@ -103,10 +123,12 @@ class GameForm extends GameSettings
 	static updateBombsOptions(linhas, colunas)
 	{
 	    var selectBombs = document.getElementById("select-bombas");
-	    var conteudo_select = "";
-	    var tamanhoTabuleiro = linhas * colunas; 
+	    var tamanhoTabuleiro = linhas * colunas;
+	    var conteudo_select = ""; 
 	    
+	    // Redefinir os conteúdo de bombas
 	    selectBombs.innerHTML = "";
+
 	    // Definir as opções
 	    if (tamanhoTabuleiro <= 30)
 	    {
@@ -125,6 +147,7 @@ class GameForm extends GameSettings
 	        conteudo_select = this.#gerarOpcoesBombas([12, 13, 14]);
 	    }
 
+	    // Atualizar o conteúdo (opções) de bombas
 	    selectBombs.innerHTML = conteudo_select;
 	}
 
