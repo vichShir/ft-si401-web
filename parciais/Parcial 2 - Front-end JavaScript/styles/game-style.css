@@ -172,42 +172,47 @@ select{
 
 
 table {
-    margin: 1em auto;
-    border-collapse: collapse;
+  margin: 1em auto;
+  border-collapse: collapse;
 }
 td {
-    border: 1px solid black;
-    width: 30px;
-    height: 30px;
-    text-align: center;
+  background: #f5f6fa; 
+  border: 1px solid black;
+  width: 30px;
+  height: 30px;
+
+  font-family: 'Roboto', sans-serif;
+  color: #000;
+  text-align: center;
 }
-.blocked, .flag {
-    background: lightgray;    
+.blocked {
+  background: #576574;
+  color: #FFF;
 }
 .n1, .n2, .n3, .n4, .n5, .n6, .n7, .n8 {
-    background-color: #eee;
+  background-color: #eee;
 }
 .n1 {
-    color: blue;
+  color: blue;
 }
 .n2 {
-    color: green;
+  color: green;
 }
 .n3 {
-    color: red;
+  color: red;
 }
 .n4 {
-    color: maroon;
+  color: maroon;
 }
 .n5 {
-    color: blueviolet;
+  color: blueviolet;
 }
 .n6 {
-    color: darkgoldenrod;
+  color: darkgoldenrod;
 }
 .n7 {
-    color: orange;
+  color: orange;
 }
 .n8 {
-    color: tomato;
+  color: tomato;
 }
