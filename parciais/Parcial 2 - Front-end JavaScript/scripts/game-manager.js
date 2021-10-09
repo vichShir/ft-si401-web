@@ -43,6 +43,8 @@ function initGameButton()
     console.log(linhas + "/" + colunas);
     console.log(qtdbombs);
     console.log(gamemode);
+
+    return false;
 }
 
 /** 

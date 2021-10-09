@@ -51,13 +51,12 @@
           <h4>Escolha seu jogo:</h4>
 
           <!-- Formulário para definir Jogo -->
-          <form name="formulario-jogo" onsubmit="return false;">
+          <form name="formulario-jogo" onsubmit="return initGameButton()">
             <!-- Organizar as opções em linha -->
             <div class="form-options">
               <!-- TabSize -->
               <div>
                 <img src="images/icons/square-matrix.png" alt="tamanho-tabuleiro">
-                <!-- Valores arbitrarios (serao redefinidos na Parcial 2) -->
                 <select name="tabsize" onchange="updateBombsOptions();">
                   <option value="5x5">5x5</option>
                   <option value="5x6">5x6</option>
@@ -90,8 +89,7 @@
             </div>
 
             <!-- Botão para definir Jogo -->
-            <input id="form-button" type="submit" onclick="initGameButton();" value="Iniciar Jogo">
-
+            <input id="form-button" type="submit" value="Iniciar Jogo">
           </form>
         </section>
 
