@@ -2,10 +2,6 @@
  * Folha de estilo do game
  */
 
-header{
-  height: 140px;
-}
-
 select{
   width: 75px;
   height: 28px;
@@ -18,38 +14,6 @@ select{
 .sec-game{
   width: 1020px;
   height: auto;
-}
-
-/**
- * Menu
- */
-.menu{
-  width: min-content;
-  margin: auto auto 50px auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-
-  font-family: 'Roboto', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 1.125em;
-  line-height: 28px;
-}
-
-.menu a{
-  margin: auto 12px auto 12px;
-}
-
-.menu p{
-  width: max-content;
-  margin-top: 3px;
-  text-align: left;
-}
-
-.menu img{
-  width: 28px;
-  height: 28px;
-  margin-bottom: -6px;
 }
 
 /**
