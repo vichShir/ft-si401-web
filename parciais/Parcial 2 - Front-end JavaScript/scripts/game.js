@@ -179,28 +179,61 @@ class CampoMinado extends Tabuleiro
     #configureGameTime()
     {
         /**** Game Time Settings ****/
-
         if(this._gameMode === "rivotril")
         {
             /* Modo Rivotril (Stopwatch & Timer) */
             // Mostrar Timer em Game Info
             GameInfo.showTimerDiv();
-            // Criar stopwatch e timer
-            this._stopwatch = new StopWatch();
-            this._timer = new Timer();
+            // Definir tempo do temporizador em s
+            var time = this.#defineTimeForRivotril();
+            // Inicia Stopwatch e Timer
+            StopWatch.start();
+            Timer.start(time);
         }
         else
         {
             /* Modo Clássico (Stopwatch) */
             // Esconder Timer de Game Info
             GameInfo.hideTimerDiv();
-            // Criar stopwatch
-            this._stopwatch = new StopWatch();
+            // Inicia Stopwatch
+            StopWatch.start();
         }
         // Mostrar o painel de Game Info
         GameInfo.showGameInfo();
     }
 
+    #defineTimeForRivotril()
+    {
+        var tamanhoTabuleiro = this._linhas * this._colunas;
+        var time;
+        switch(tamanhoTabuleiro)
+        {
+            case 25:
+                time = 180; // 3min
+                break;
+            case 30:
+                time = 240; // 4min
+                break;
+            case 36:
+                time = 300; // 5min
+                break;
+            case 49:
+                time = 360; // 6min
+                break;
+            case 64:
+                time = 420; // 7min
+                break;
+            case 81:
+                time = 480; // 8min
+                break;
+            case 100:
+                time = 540; // 9min
+                break;
+            default:
+                time = 600; // 10min
+        }
+        return time;
+    }
 
     /*|*******************************|*/
     /*| Verificacao da acao do player |*/

@@ -10,7 +10,18 @@
  * */
 class StopWatch
 {
+	static stopwatch = document.getElementById("stopwatch"); // Elemento html
+	static timeout; // Objeto setTimeout
+	static sec = 0; // Segundos
+	static min = 0; // Minutos
+	static hour = 0; // Horas
+
 	constructor()
+	{
+		
+	}
+
+	static start()
 	{
 		console.log("Eu sou um StopWatch!");
 	}
@@ -22,8 +33,22 @@ class StopWatch
  * */
 class Timer
 {
+	static timer = document.getElementById("timer"); // Elemento html
+	static timeout; // Objeto setTimeout
+	static totalSeconds; // Tempo total
+	static timerOver = false; // Tempo esgotado
+	static sec = 0; // Segundos
+	static min = 0; // Minutos
+	static hour = 0; // Horas
+
 	constructor()
 	{
-		console.log("Eu sou um Timer!");
+		
+	}
+
+	static start(totalSeconds)
+	{
+		this.totalSeconds = totalSeconds;
+		console.log("Eu sou um Timer! Meu tempo é de: " + this.totalSeconds + " segundos");
 	}
 }
