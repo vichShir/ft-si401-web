@@ -1,3 +1,6 @@
+/**
+ * Classes do game
+ */
 
 "use strict";
 
@@ -17,7 +20,6 @@ class Tabuleiro
         this._matrix;
         this._linhas = linhas;
         this._colunas = colunas;
-
         this.#assembleTable();
     }
 
@@ -27,7 +29,6 @@ class Tabuleiro
     #assembleTable()
     {
         this.#createMatrix();
-
         var conteudo_tabela = "";
         for (var linha = 0; linha < this._linhas; linha++)
         {
@@ -38,14 +39,12 @@ class Tabuleiro
             }
             conteudo_tabela += "</tr>";
         }
-
         this._tabela.innerHTML = conteudo_tabela;
     }
 
     #createMatrix()
     {
         this._matrix = new Array(this._linhas);
-
         var i = 0;
         while (i < this._matrix.length)
         {
@@ -64,12 +63,14 @@ class Tabuleiro
         {
             var linha = this.#genRandomRow();
             var coluna = this.#genRandomColumn();
-
             if (this._matrix[linha][coluna] === 0) 
             {
-                console.log(linha + "x" + coluna);
                 this._matrix[linha][coluna] = -1;
                 b++;
+
+                // Debug
+                console.log("Bomba criada em:")
+                console.log(linha + "X" + coluna);
 
                 // TESTE
                 this._tabela.rows[linha].cells[coluna].innerHTML = "&#128163";
@@ -120,7 +121,6 @@ class Tabuleiro
                 }
             }
         }
-
         this._matrix[linha][coluna] = count;
 
         // TESTE
@@ -141,24 +141,25 @@ class CampoMinado extends Tabuleiro
 {
     constructor(tableName, linhas, colunas, qtdBombas, gameMode)
     {
-        super(tableName, linhas, colunas);
-        this._numBombs = qtdBombas;
-        this._gameMode = gameMode;
-        this._pscore = 0;
-        this._opencells = 0;
+        super(tableName, linhas, colunas); // Constructor do tabuleiro
+        this._numBombs = qtdBombas; // Número de bombas
+        this._gameMode = gameMode; // Modo de jogo
+        this._pscore = 0; // Pontuação
+        this._opencells = 0; // Número de células abertas
         this._stopwatch; // Cronômetro
         this._timer; // Temporizador
     }
 
-    initializer()
+    init()
     {
-        console.log("Initializer");
+        console.log("**INIT**");
 
         this.#updatePlayerScores();
         this.#configureGameTime();
         this._genBombs(this._numBombs);
         this._genNumbers();
 
+        console.log("matrix:");
         console.log(this._matrix);
     }
 
@@ -182,10 +183,8 @@ class CampoMinado extends Tabuleiro
         if(this._gameMode === "rivotril")
         {
             /* Modo Rivotril (Stopwatch & Timer) */
-
             // Mostrar Timer em Game Info
             GameInfo.showTimerDiv();
-
             // Criar stopwatch e timer
             this._stopwatch = new StopWatch();
             this._timer = new Timer();
@@ -193,14 +192,11 @@ class CampoMinado extends Tabuleiro
         else
         {
             /* Modo Clássico (Stopwatch) */
-
             // Esconder Timer de Game Info
             GameInfo.hideTimerDiv();
-
             // Criar stopwatch
             this._stopwatch = new StopWatch();
         }
-
         // Mostrar o painel de Game Info
         GameInfo.showGameInfo();
     }
@@ -216,7 +212,13 @@ class CampoMinado extends Tabuleiro
 
     verifyCell(linha, coluna)
     {
-        console.log(linha + "x" + coluna);
+        console.log("célula clicada:")
+        console.log(linha + "X" + coluna);
+    }
+
+    gameOver()
+    {
+        
     }
 
     showMatrix()

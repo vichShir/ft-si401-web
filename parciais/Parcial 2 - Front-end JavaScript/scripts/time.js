@@ -1,3 +1,6 @@
+/**
+ * Gerenciadores dos tempos
+ */
 
 "use strict";
 

@@ -1,3 +1,6 @@
+/**
+ * Gerenciador do formulário
+ */
 
 "use strict";
 
@@ -83,13 +86,12 @@ class GameForm extends GameSettings
     /*|*******************************|*/
 	#defineTabSize()
 	{
+		// Valor do selection
 	    var tabsize = this.#getValueFromSelection(this._selectionTabSize);
-
-	    // Dividindo em linhas e colunas como valores
+	    // Convertendo e dividindo string em valores
 	    var linhas = parseInt(tabsize.split("x")[0]);
 	    var colunas = parseInt(tabsize.split("x")[1]);
-
-	    // Array com os valores de linhas e colunas a serem retornados
+	    // Definindo array com os valores de linhas e colunas
 	    this.setTabSize = [linhas, colunas];
 	}
 
@@ -107,6 +109,7 @@ class GameForm extends GameSettings
 
 	#getValueFromSelection(selection)
 	{
+		// Retornar o valor do selection
 	    return selection[selection.selectedIndex].value;
 	}
 
@@ -125,38 +128,35 @@ class GameForm extends GameSettings
 	    var selectBombs = document.getElementById("select-bombas");
 	    var tamanhoTabuleiro = linhas * colunas;
 	    var conteudo_select = ""; 
-	    
 	    // Redefinir os conteúdo de bombas
 	    selectBombs.innerHTML = "";
-
 	    // Definir as opções
 	    switch(tamanhoTabuleiro)
 	    {
 	    	case 25:
-	    		conteudo_select = this.#gerarOpcoesBombas([2, 3, 4]);
+	    		conteudo_select = this.#gerarOpcoesBombas([3]);
 	    		break;
 	    	case 30:
-	    		conteudo_select = this.#gerarOpcoesBombas([3, 4, 5]);
+	    		conteudo_select = this.#gerarOpcoesBombas([4]);
 	    		break;
 	    	case 36:
-	    		conteudo_select = this.#gerarOpcoesBombas([5, 6, 7]);
+	    		conteudo_select = this.#gerarOpcoesBombas([6]);
 	    		break;
 	    	case 49:
-	    		conteudo_select = this.#gerarOpcoesBombas([9, 10, 11]);
+	    		conteudo_select = this.#gerarOpcoesBombas([8]);
 	    		break;
 	    	case 64:
-	    		conteudo_select = this.#gerarOpcoesBombas([11, 12, 13]);
+	    		conteudo_select = this.#gerarOpcoesBombas([10]);
 	    		break;
 	    	case 81:
-	    		conteudo_select = this.#gerarOpcoesBombas([13, 14, 15]);
+	    		conteudo_select = this.#gerarOpcoesBombas([12]);
 	    		break;
 	    	case 100:
-	    		conteudo_select = this.#gerarOpcoesBombas([15, 18, 21]);
+	    		conteudo_select = this.#gerarOpcoesBombas([16]);
 	    		break;
 	    	default:
-	    		conteudo_select = this.#gerarOpcoesBombas([24, 30, 36]);
+	    		conteudo_select = this.#gerarOpcoesBombas([30]);
 	    }
-
 	    // Atualizar o conteúdo (opções) de bombas
 	    selectBombs.innerHTML = conteudo_select;
 	}
@@ -164,12 +164,10 @@ class GameForm extends GameSettings
 	static #gerarOpcoesBombas(listaValores)
 	{
 	    var htmlOptions = "";
-
 	    for (var i = 0; i < listaValores.length; i++)
 	    {
 	        htmlOptions += "<option value='" + listaValores[i] + "'>" + listaValores[i] + "</option>";
 	    }
-
 	    return htmlOptions;
 	}
 }

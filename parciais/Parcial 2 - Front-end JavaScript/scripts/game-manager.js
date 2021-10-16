@@ -1,14 +1,17 @@
+/**
+ * Gerenciador do game
+ */
 
 "use strict";
 
 /**
  * Funcionalidades faltantes:
  * - Sistema de time (Stopwatch & Timer)
- * - Mostrar celulas (verificar celula)
+ * - Mostrar celulas recursivamente (verificar celula)
+ * - Game over
  * - Botão de trapaça
  * - Contagem de pontuação
  */
-
 
 /* Variáveis do game */
 var linhas, colunas, qtdbombs, gamemode;
@@ -23,6 +26,7 @@ var game;
 function init()
 {
     forms = new GameForm("formulario-jogo");
+    updateBombsOptions();
     GameInfo.hideGameInfo();
 }
 
@@ -34,31 +38,20 @@ function init()
  * */
 function initGameButton()
 {
-    updateSettings();
+    updateGameSettings();
 
     game = new CampoMinado("tabela", linhas, colunas, qtdbombs, gamemode);
     game.setTableOnClick = onClickCell;
-    game.initializer();
+    game.init();
 
-    console.log(linhas + "/" + colunas);
+    console.log("linhasXcolunas:");
+    console.log(linhas + "X" + colunas);
+    console.log("quantidade bombas:");
     console.log(qtdbombs);
+    console.log("game mode:");
     console.log(gamemode);
 
     return false;
-}
-
-/** 
- * Função para atualizar as variáveis do game pelo Formulário:
- * - Atualiza os dados do formulário dentro de GameForm (formulario-game.js)
- * - Atualiza as variáveis do game
- * */
-function updateSettings()
-{
-    forms.updateGameSettings();
-    linhas = forms.getTabRows;
-    colunas = forms.getTabColumns;
-    qtdbombs = forms.getNumBombs;
-    gamemode = forms.getGameMode;
 }
 
 /** 
@@ -68,8 +61,22 @@ function updateSettings()
  * */
 function updateBombsOptions()
 {
-    updateSettings();
+    updateGameSettings();
     GameForm.updateBombsOptions(linhas, colunas);
+}
+
+/** 
+ * Função para atualizar as variáveis do game pelo Formulário:
+ * - Atualiza os dados do formulário dentro de GameForm (formulario-game.js)
+ * - Atualiza as variáveis do game
+ * */
+function updateGameSettings()
+{
+    forms.updateGameSettings();
+    linhas = forms.getTabRows;
+    colunas = forms.getTabColumns;
+    qtdbombs = forms.getNumBombs;
+    gamemode = forms.getGameMode;
 }
 
 /** 
@@ -83,7 +90,6 @@ function onClickCell(event)
     var cell = event.target;
     var linha = cell.parentNode.rowIndex;
     var coluna = cell.cellIndex;
-
     game.verifyCell(linha, coluna);
 }
 
