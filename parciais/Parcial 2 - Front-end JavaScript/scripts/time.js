@@ -12,37 +12,42 @@ class StopWatch
 {
 	static stopwatch = document.getElementById("stopwatch"); // Elemento html
 	static #cron; // Objeto setInterval
-  static hour = 0;
-  static minute = 0;
-  static second = 0;
+  static #hour = 0;
+  static #minute = 0;
+  static #second = 0;
   
 	static start()
 	{
-    this.#reset();
+    this.reset();
     this.#cron = setInterval(() => { this.#timer(); }, 1000);
 	}
 
-  static #reset()
+  static stop()
   {
-    this.hour = 0;
-    this.minute = 0;
-    this.second = 0;
+    clearTimeout(this.#cron);
+  }
+
+  static reset()
+  {
+    this.#hour = 0;
+    this.#minute = 0;
+    this.#second = 0;
     this.#print();
     clearTimeout(this.#cron);
   }
 
   static #timer()
   {
-    if ((this.second += 1) == 60) 
+    if ((this.#second += 1) == 60) 
     {
-      this.second = 0;
-      this.minute++;
+      this.#second = 0;
+      this.#minute++;
     }
 
-    if (this.minute == 60) 
+    if (this.#minute == 60) 
     {
-      this.minute = 0;
-      this.hour++;
+      this.#minute = 0;
+      this.#hour++;
     }
 
     this.#print();
@@ -50,15 +55,15 @@ class StopWatch
 
   static #print()
   {
-    var second_text = this.second.toLocaleString('en-US', {
+    var second_text = this.#second.toLocaleString('en-US', {
       minimumIntegerDigits: 2,
       useGrouping: false
     })
-    var minute_text = this.minute.toLocaleString('en-US', {
+    var minute_text = this.#minute.toLocaleString('en-US', {
       minimumIntegerDigits: 2,
       useGrouping: false
     })
-    var hour_text = this.hour.toLocaleString('en-US', {
+    var hour_text = this.#hour.toLocaleString('en-US', {
       minimumIntegerDigits: 2,
       useGrouping: false
     })
@@ -78,6 +83,8 @@ class Timer
 	static #second = 0; // Segundos
 	static #minute = 0; // Minutos
 	static #hour = 0; // Horas
+
+  static #callback; // Função a ser executada quando o timer acabar
 
 	static start(totalSeconds)
   {
@@ -100,6 +107,11 @@ class Timer
     this.#second = 0;
     this.#hour = 0;
     clearTimeout(this.#timer);
+  }
+
+  static execOnFinish(callback)
+  {
+    this.#callback = callback;
   }
 
   static #convertToTime()
@@ -134,7 +146,7 @@ class Timer
         else
         {
           this.stop();
-          console.log("acabou!")
+          this.#callback();
         }
       }
     }
