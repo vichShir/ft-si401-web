@@ -1,11 +1,15 @@
+<?php
+  include('resources/php/session.php');
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
     <meta charset="utf-8">
     <title>Campo Minado Online - Ranking Global</title>
-    <link href="styles/main-style.css" rel="stylesheet" type="text/css" />
-    <link href="styles/footer-style.css" rel="stylesheet" type="text/css" />
+    <link href="resources/css/main-style.css" rel="stylesheet" type="text/css" />
+    <link href="resources/css/footer-style.css" rel="stylesheet" type="text/css" />
     <!-- Importando fontes Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +23,7 @@
     <header>
       <h1>Campo Minado Online</h1>
       <!-- Menu -->
-      <?php require("resources/menu.php"); ?>
+      <?php require("resources/php/menu.php"); ?>
     </header>
 
     <!-- Painel com os rankings -->

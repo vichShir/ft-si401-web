@@ -510,12 +510,7 @@ class Partida
 
     get gameMode()
     {
-        return this.#capitalizeFirstLetter(this._campominado._gameMode);
-    }
-
-    #capitalizeFirstLetter(string)
-    {
-        return string.charAt(0).toUpperCase() + string.slice(1);
+        return this._campominado._gameMode[0].toUpperCase();
     }
 
     get playedTime()
@@ -524,10 +519,23 @@ class Partida
         let p_minutes = StopWatch.finalMinute;
         let p_seconds = StopWatch.finalSecond;
 
+        let hour_text = p_hours.toLocaleString('en-US', {
+          minimumIntegerDigits: 2,
+          useGrouping: false
+        })
+        let minute_text = p_minutes.toLocaleString('en-US', {
+          minimumIntegerDigits: 2,
+          useGrouping: false
+        })
+        let second_text = p_seconds.toLocaleString('en-US', {
+          minimumIntegerDigits: 2,
+          useGrouping: false
+        })
+
         let textFormatted = "";
-        textFormatted += p_hours > 0 ? p_hours + "hrs " : "";
-        textFormatted += p_minutes > 0 ? p_minutes + "min " : "";
-        textFormatted += p_seconds + "s";
+        textFormatted += p_hours > 0 ? hour_text + ":" : "00:";
+        textFormatted += p_minutes > 0 ? minute_text + ":" : "00:";
+        textFormatted += second_text;
 
         return textFormatted;
     }
@@ -537,12 +545,12 @@ class Partida
         let timeElapsed = Date.now();
         let today = new Date(timeElapsed);
 
-        return today.toLocaleDateString();
+        return today.toISOString().split('T')[0];
     }
 
     get isVictory()
     {
-        return this._campominado._victory ? "VITÓRIA" : "DERROTA";
+        return this._campominado._victory ? "V" : "D";
     }
 }
 

@@ -39,19 +39,6 @@ function initGameButton()
   return false;
 }
 
-function getPartida()
-{
-    partida = new Partida(game);
-    console.log(partida.tabsize);
-    console.log(partida.numBombs);
-    console.log(partida.gameMode);
-    console.log(partida.playedTime);
-    console.log(partida.date);
-    console.log(partida.isVictory);
-
-    return false;
-}
-
 /** 
  * Função para atualizar as opções de bombas (chamada de name="tabsize" no html)
  * - Atualiza as variáveis do game

@@ -1,16 +1,20 @@
+<?php
+  include('resources/php/session.php');
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
     <meta charset="utf-8">
     <title>Campo Minado Online - Game</title>
-    <link href="styles/main-style.css" rel="stylesheet" type="text/css"/>
-    <link href="styles/game-style.css" rel="stylesheet" type="text/css"/>
-    <link href="styles/footer-style.css" rel="stylesheet" type="text/css"/>
-    <script src="scripts/formulario-game.js"></script>
-    <script src="scripts/time.js"></script>
-    <script src="scripts/game.js"></script>
-    <script src="scripts/data-manager.js"></script>
-    <script src="scripts/game-manager.js"></script>
+    <link href="resources/css/main-style.css" rel="stylesheet" type="text/css"/>
+    <link href="resources/css/game-style.css" rel="stylesheet" type="text/css"/>
+    <link href="resources/css/footer-style.css" rel="stylesheet" type="text/css"/>
+    <script src="resources/javascript/formulario-game.js"></script>
+    <script src="resources/javascript/time.js"></script>
+    <script src="resources/javascript/game.js"></script>
+    <script src="resources/javascript/data-manager.js"></script>
+    <script src="resources/javascript/game-manager.js"></script>
     <!-- Importando fontes Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,7 +28,7 @@
     <header>
       <h1>Campo Minado Online</h1>
       <!-- Menu -->
-      <?php require("resources/menu.php"); ?>
+      <?php require("resources/php/menu.php"); ?>
     </header>
 
     <!-- Painel do game (Game & Historico) -->
@@ -80,7 +84,7 @@
 
         <!-- Informações da Partida -->
         <section id="game-info">
-          <h4 onclick="getPartida();">Partida:</h4>
+          <h4>Partida:</h4>
 
           <!-- Tempos -->
           <div class="game-time">
@@ -116,7 +120,56 @@
         <h2>Histórico</h2>
         <hr>
 
-        <div id="hist-partidas"></div>
+        <div id="hist-partidas">
+          <?php
+            include "resources/php/database.php";
+
+            $db = new Database();
+            $cmd = new DBCommands();
+            $result = $db->getAllRowsFromQuery($cmd::GET_ALL_GAMEMATCH($_SESSION["codusuario"]));
+
+            foreach($result as $partida)
+              echo "<!-- Conteudo Partida -->
+                    <section class='sec-hist'>
+                    <!-- Primeira linha de conteudos(3) -->
+                    <div class='hist-row'>
+                    <!-- Player Name -->
+                    <h4 class='to-left'>" . $_SESSION["username"] . "</h4>
+                    <!-- Game Status -->
+                    <h4 class='game-status'>" . $partida["status"] . "</h4>
+                    <!-- Played Date -->
+                    <div class='side-two to-right'>
+                        <img src='images/icons/calendar_byFreepik.png' alt='tamanho-tabuleiro'>
+                        <p>" . $partida["dtpartida"] . "</p>
+                    </div>
+                    </div>
+                    <!-- Segunda linha de conteudos(4) -->
+                    <div class='hist-row hist-row2'>
+                    <!-- TabSize -->
+                    <div class='side-two to-left'>
+                        <img src='images/icons/square-matrix.png' alt='coroa-dourada'>
+                        <p>" . $partida["tablinhas"] . "x" . $partida["tabcolunas"] . "</p>
+                    </div>
+                    <!-- Quantidade de Bombas -->
+                    <div class='side-two'>
+                        <img src='images/icons/round-bomb_byFreepik.png' alt='numero-bombas'>
+                        <p>" . $partida["numbombas"] . "</p>
+                        </div>
+                    <!-- Game Mode -->
+                    <div class='side-two'>
+                        <img src='images/icons/rubik_byFreepik.png' alt='modo-jogo'>
+                        <p>" . $partida["modo"] . "</p>
+                        </div>
+                    <!-- Time Played -->
+                    <div class='side-two to-right'>
+                        <img src='images/icons/clock.png' alt='tempo-jogado'>
+                        <p>" . $partida["tempojogado"] . "</p>
+                    </div>
+                    </div>
+                </section>
+                <hr class='hist-line'>";
+          ?>
+        </div>
 
     </section>
 

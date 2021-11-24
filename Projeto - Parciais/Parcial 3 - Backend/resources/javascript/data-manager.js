@@ -6,7 +6,7 @@
 
 let xhttp;
 
-function enviarDados(tabsize, numBombs, gameMode, playedTime, date, isVictory)
+function enviarDados(tabsize, numBombs, gameMode, playedTime, date, status)
 {
     xhttp = new XMLHttpRequest();
 
@@ -16,15 +16,14 @@ function enviarDados(tabsize, numBombs, gameMode, playedTime, date, isVictory)
         return false;
     }
     xhttp.onreadystatechange = mostraResposta;
-    xhttp.open('POST', 'resources/data-teste2.php', true);
+    xhttp.open('POST', 'resources/php/salvar_partida.php', true);
     xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhttp.send('tabsize=' + encodeURIComponent(tabsize) + 
         '&numBombs=' + encodeURIComponent(numBombs) +
         '&gameMode=' + encodeURIComponent(gameMode) +
         '&playedTime=' + encodeURIComponent(playedTime) +
         '&date=' + encodeURIComponent(date) +
-        '&isVictory=' + encodeURIComponent(isVictory));
-    //xhttp.send('');
+        '&status=' + encodeURIComponent(status));
 }
 
 function mostraResposta() 
@@ -36,36 +35,14 @@ function mostraResposta()
             if (xhttp.status === 200)
             {
                 let resposta = JSON.parse(xhttp.responseText);
-                
-                /*let table = "<tr>\
-                    <td>CPF</td>\
-                    <td>Nome completo</td>\
-                    <td>Data nascimento</td>\
-                    <td>telefone</td>\
-                    <td>email</td>\
-                    <td>usuario</td>\
-                    <td>senha</td>\
-                    </tr>";
-                resposta.forEach(jogador => {
-                    table += "<tr>";
-                    table += "<td>" + jogador.cpf + "</td>";
-                    table += "<td>" + jogador.nome + "</td>";
-                    table += "<td>" + jogador.dtnascimento + "</td>";
-                    table += "<td>" + jogador.telefone + "</td>";
-                    table += "<td>" + jogador.email + "</td>";
-                    table += "<td>" + jogador.username + "</td>";
-                    table += "<td>" + jogador.password + "</td>";
-                    table += "</tr>";
-                });*/
-
                 let conteudo = "<!-- Conteudo Partida -->\
                     <section class='sec-hist'>\
                     <!-- Primeira linha de conteudos(3) -->\
                     <div class='hist-row'>\
                     <!-- Player Name -->\
-                    <h4 class='to-left'>" + "USUÁRIO" + "</h4>\
+                    <h4 class='to-left'>" + resposta.username + "</h4>\
                     <!-- Game Status -->\
-                    <h4 class='game-status'>" + resposta.isVictory + "</h4>\
+                    <h4 class='game-status'>" + resposta.status + "</h4>\
                     <!-- Played Date -->\
                     <div class='side-two to-right'>\
                         <img src='images/icons/calendar_byFreepik.png' alt='tamanho-tabuleiro'>\

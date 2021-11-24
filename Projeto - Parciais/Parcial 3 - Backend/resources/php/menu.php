@@ -11,7 +11,7 @@
     <img src="images/icons/editing_byFreepik.png" alt="editar-perfil">
     <p>Editar Perfil</p>
 </a>
-<a href="index.html"  class="side-two">
+<a href="resources/php/logout.php"  class="side-two">
     <img src="images/icons/logout_byFreepik.png" alt="logout">
     <p>Sair</p>
 </a>
