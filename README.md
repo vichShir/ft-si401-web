@@ -15,13 +15,10 @@ Nessa segunda entrega parcial, **toda a dinâmica do jogo está implementada e o
 Essa última entrega parcial corresponde ao incremento final do sistema, com a implementação de todas as funcionalidades relacionadas ao *back-end*. Essa entrega corresponde à versão final do sistema, com as funcionalidades de *front-end* e *back-end* devidamente integradas e testadas.
 
 ### 📚 Conteúdo
-- Atividades individuais
 - Projeto Final
-  - Parcial 1 - Front-end: HTML/CSS (27/09/2021)
-  - Parcial 2 - Front-end: Dinâmica do Jogo em JavaScript (08/11/2021)
 
 ### 🌐 Motivação
-As atividades individuais e o projeto final compõem a nota final da disciplina de **SI401 - Programação para a Web** (2º Semestre 2021) na Faculdade de Tecnologia (FT) UNICAMP.
+O projeto final compõe a nota final da disciplina de **SI401 - Programação para a Web** (2º Semestre 2021) na Faculdade de Tecnologia (FT) UNICAMP.
 
 ### ✏️ Desenvolvedores
 - 👦 Caio Pereira Masseu
