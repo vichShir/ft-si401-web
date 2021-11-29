@@ -68,7 +68,8 @@ define("SQL_CMD_CREATE_USER", "CREATE TABLE usuario(
 					username VARCHAR(30) NOT NULL,
 					password VARCHAR(20) NOT NULL,
 					PRIMARY KEY(codusuario),
-                    UNIQUE(cpf)
+                    UNIQUE(cpf),
+                    UNIQUE(username)
 		    )");
 define("SQL_CMD_CREATE_GAMEMATCH", "CREATE TABLE partida(
 			        codpartida MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT,

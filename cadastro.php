@@ -33,7 +33,7 @@
         }
         catch(DatabaseExecuteException $e)
         {
-            $error = "Número de CPF em uso. Utilize outro ou tente novamente.";
+            $error = "Número de CPF ou username em uso. Tente utilizar outro ou tente novamente.";
         }
         catch(Exception $e)
         {

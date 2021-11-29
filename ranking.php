@@ -42,18 +42,21 @@
                 $partidas = sort_ranking($result);
                 $rank_pos = 0;
                 $coroa = "";
-                foreach($partidas as $partida)
+                if(!empty($partidas))
                 {
-                    $username = $partida["username"];
-                    $rank_pos++;
-                    if($rank_pos === 1) $coroa = "<img src='images/icons/crown_1_byFreepik.png' alt='coroa-dourada'>";
-                    else if($rank_pos === 2) $coroa = "<img src='images/icons/crown_2_byFreepik.png' alt='coroa-prata'>";
-                    else if($rank_pos === 3) $coroa = "<img src='images/icons/crown_3_byFreepik.png' alt='coroa-bronze'>";
-                    else $coroa = "";
-                    $tabsize = $partida["tablinhas"] . "x" . $partida["tabcolunas"];
-                    $tempojogado = $partida["tempojogado"];
+                    foreach($partidas as $partida)
+                    {
+                        $username = $partida["username"];
+                        $rank_pos++;
+                        if($rank_pos === 1) $coroa = "<img src='images/icons/crown_1_byFreepik.png' alt='coroa-dourada'>";
+                        else if($rank_pos === 2) $coroa = "<img src='images/icons/crown_2_byFreepik.png' alt='coroa-prata'>";
+                        else if($rank_pos === 3) $coroa = "<img src='images/icons/crown_3_byFreepik.png' alt='coroa-bronze'>";
+                        else $coroa = "";
+                        $tabsize = $partida["tablinhas"] . "x" . $partida["tabcolunas"];
+                        $tempojogado = $partida["tempojogado"];
 
-                    print_ranking($username, $coroa, $rank_pos, $tabsize, $tempojogado);
+                        print_ranking($username, $coroa, $rank_pos, $tabsize, $tempojogado);
+                    }
                 }
             }
             catch(DatabaseConnectionException $e)
@@ -109,7 +112,7 @@
                 array_multisort($tablinhas, SORT_DESC, $tabcolunas, SORT_DESC, $tempojogado, SORT_ASC, $username, $unsort_ranking);
 
                 $partidas = array();
-                $rank_size = ($tablinhas < 10) ? sizeof($tablinhas) : 10;
+                $rank_size = (sizeof($tablinhas) < 10) ? sizeof($tablinhas) : 10;
                 for($i = 0; $i < $rank_size; $i++)
                 {
                     $partidas[$i] = array();
