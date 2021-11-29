@@ -36,39 +36,24 @@
             try
             {
                 $db = new Database();
-                $result = $db->getAllRowsFromQuery(DBCommands::GET_TOP_GAMEMATCHS());
+                $result = $db->getAllRowsFromQuery(DBCommands::GET_ALL_GAMEMATCHS());
                 $db->close();
-                
+
+                $partidas = sort_ranking($result);
                 $rank_pos = 0;
                 $coroa = "";
-                foreach($result as $partida)
+                foreach($partidas as $partida)
                 {
+                    $username = $partida["username"];
                     $rank_pos++;
                     if($rank_pos === 1) $coroa = "<img src='images/icons/crown_1_byFreepik.png' alt='coroa-dourada'>";
                     else if($rank_pos === 2) $coroa = "<img src='images/icons/crown_2_byFreepik.png' alt='coroa-prata'>";
                     else if($rank_pos === 3) $coroa = "<img src='images/icons/crown_3_byFreepik.png' alt='coroa-bronze'>";
                     else $coroa = "";
+                    $tabsize = $partida["tablinhas"] . "x" . $partida["tabcolunas"];
+                    $tempojogado = $partida["tempojogado"];
 
-                    echo "<!-- Conteudo Ranking -->
-                        <section class='sec-rk'>
-                            <!-- Player Name -->
-                            <h4 class='to-left'>" . $partida["username"] . "</h4>
-                            <!-- Player Rank -->
-                            <div class='side-two to-right'>"
-                               . $coroa . "<p>Rank " . $rank_pos . "</p>
-                            </div>
-                            <!-- TabSize -->
-                            <div class='side-two to-left'>
-                                <img src='images/icons/square-matrix.png' alt='tamanho-tabuleiro'>
-                                <p>" . $partida["tablinhas"] . "x" . $partida["tabcolunas"] . "</p>
-                            </div>
-                            <!-- Time-Played -->
-                            <div class='side-two to-right'>
-                                <img src='images/icons/clock.png' alt='tempo-jogado'>
-                                <p>" . $partida["tempojogado"] . "</p>
-                            </div>
-                        </section>
-                        <hr class='rk-line'>";
+                    print_ranking($username, $coroa, $rank_pos, $tabsize, $tempojogado);
                 }
             }
             catch(DatabaseConnectionException $e)
@@ -82,6 +67,59 @@
             catch(PDOException $e)
             {
                 echo $e->getMessage();
+            }
+
+            function print_ranking($username, $coroa_img, $rank_pos, $tabsize, $tempojogado)
+            {
+                echo "<!-- Conteudo Ranking -->
+                    <section class='sec-rk'>
+                        <!-- Player Name -->
+                        <h4 class='to-left'>" . $username . "</h4>
+                        <!-- Player Rank -->
+                        <div class='side-two to-right'>"
+                           . $coroa_img . "<p>Rank " . $rank_pos . "</p>
+                        </div>
+                        <!-- TabSize -->
+                        <div class='side-two to-left'>
+                            <img src='images/icons/square-matrix.png' alt='tamanho-tabuleiro'>
+                            <p>" . $tabsize . "</p>
+                        </div>
+                        <!-- Time-Played -->
+                        <div class='side-two to-right'>
+                            <img src='images/icons/clock.png' alt='tempo-jogado'>
+                            <p>" . $tempojogado . "</p>
+                        </div>
+                    </section>
+                    <hr class='rk-line'>";
+            }
+
+            function sort_ranking($unsort_ranking)
+            {
+                // Obtain a list of columns
+                foreach ($unsort_ranking as $key => $row)
+                {
+                    $username[$key] = $row['username'];
+                    $tablinhas[$key]  = $row['tablinhas'];
+                    $tabcolunas[$key] = $row['tabcolunas'];
+                    $tempojogado[$key] = $row['tempojogado'];
+                }
+
+                // Ordena os dados por tablinhas decrescente, tabcolunas decrescente e tempojogado crescente.
+                // Adiciona $unsort_ranking como último parâmetro, para ordenar por uma chave comum.
+                array_multisort($tablinhas, SORT_DESC, $tabcolunas, SORT_DESC, $tempojogado, SORT_ASC, $username, $unsort_ranking);
+
+                $partidas = array();
+                $rank_size = ($tablinhas < 10) ? sizeof($tablinhas) : 10;
+                for($i = 0; $i < $rank_size; $i++)
+                {
+                    $partidas[$i] = array();
+                    $partidas[$i]['username'] = $username[$i];
+                    $partidas[$i]['tablinhas'] = $tablinhas[$i];
+                    $partidas[$i]['tabcolunas'] = $tabcolunas[$i];
+                    $partidas[$i]['tempojogado'] = $tempojogado[$i];
+                }
+
+                return $partidas;
             }
         ?>
 

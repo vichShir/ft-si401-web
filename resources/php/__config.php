@@ -1,15 +1,5 @@
 <?php
 //===========================================================================
-//=============================== O que falta? ==============================
-//===========================================================================
-
-/**
- * 1. Ranking (pegar todas as partidas, ordenar e exibir no html)
- * 2. Sessões (armazenar codusuario e username)
- * 3. Login, cadastro e editar perfil (verificar login no BD, inserir no BD e update no DB)
- */
-
-//===========================================================================
 //============================ Database Settings ============================
 //===========================================================================
 
@@ -17,7 +7,7 @@
  * Especifique as configurações do seu banco de dados aqui (MariaDB)
  * 
  * USING_CLOUD_MARIADB = true -> usando MariaDB na nuvem
- * USING_CLOUD_MARIADB = false -> usando MariaDB localhost
+ * USING_CLOUD_MARIADB = false -> usando MariaDB no localhost
  *
  * USING_SSL_CONNECTION = true -> especifique o caminho da chave p/ conexão SSL
  * USING_SSL_CONNECTION = false -> desabilitar conexão SSL
@@ -28,7 +18,7 @@ define("DB_PORT", "5001");
 define("DB_DATABASE", "campominado");
 if(USING_CLOUD_MARIADB)
 {
-    // Configurações utilizando o provedor MariaDB SkySQL aberto até 26/12
+    // Configurações utilizando o provedor MariaDB SkySQL aberto até 20/12
     define("DB_SERVER", "web.mdb0002361.db1.skysql.net");
 	define("DB_USERNAME", "DB00005107");
 	define("DB_PASSWORD", "86o7KC0Rp?]rjg6EJ4H3a_FtAf");
@@ -62,11 +52,11 @@ define("SQL_TABLE_NAME_USER", "usuario");
 define("SQL_TABLE_NAME_GAMEMATCH", "partida");
 
 /**
- * "Digite os seus comandos SQL aqui"
+ * "Comandos SQL ficam aqui"
  *   - Criação das tabelas.
  *   - Inserção nas tabelas.
  *   - Alteração das tabelas.
- *   - Selecionar das tabelas.
+ *   - Seleção das tabelas.
  */
 define("SQL_CMD_CREATE_USER", "CREATE TABLE usuario(
 					codusuario INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -89,7 +79,7 @@ define("SQL_CMD_CREATE_GAMEMATCH", "CREATE TABLE partida(
 			        modo CHAR(1) NOT NULL,
 			        tempojogado TIME NOT NULL,
 			        status CHAR(1) NOT NULL,
-			        dtpartida DATE NOT NULL,
+			        dtpartida DATETIME NOT NULL,
 			        PRIMARY KEY(codpartida, codusuario),
 					FOREIGN KEY (codusuario) REFERENCES usuario (codusuario)
 		    )");
@@ -99,11 +89,14 @@ define("SQL_CMD_INSERT_INTO_USER", "INSERT INTO " . SQL_TABLE_NAME_USER .
 define("SQL_CMD_INSERT_INTO_GAMEMATCH", "INSERT INTO " . SQL_TABLE_NAME_GAMEMATCH .
 					" (codusuario, tablinhas, tabcolunas, numbombas, modo, tempojogado, status, dtpartida) VALUES ");
 
-define("SQL_CMD_SELECT_ID_NAME_FROM_USER", "SELECT codusuario, username FROM " . SQL_TABLE_NAME_USER);
-define("SQL_CMD_SELECT_ALL_FROM_GAMEMATCH", "SELECT * FROM " . SQL_TABLE_NAME_GAMEMATCH);
-
 define("SQL_CMD_UPDATE_USER", "UPDATE " . SQL_TABLE_NAME_USER . " SET ");
 
+define("SQL_CMD_SELECT_ID_NAME_FROM_USER", "SELECT codusuario, username FROM " . SQL_TABLE_NAME_USER);
+define("SQL_CMD_SELECT_ALL_FROM_GAMEMATCH", "SELECT * FROM " . SQL_TABLE_NAME_GAMEMATCH);
+define("SQL_CMD_SELECT_ALL_VICTORIES_GAMEMATCH", "SELECT u.username, p.tablinhas, p.tabcolunas, p.tempojogado
+                                            FROM usuario u INNER JOIN partida p
+                                                ON u.codusuario = p.codusuario
+                                            WHERE status = 'V'");                                            
 define("SQL_CMD_TOP_GAMEMATCHS", "SELECT u.username, p.tablinhas, p.tabcolunas, p.tempojogado
                                 FROM usuario u INNER JOIN partida p
                                     ON u.codusuario = p.codusuario

@@ -545,7 +545,11 @@ class Partida
         let timeElapsed = Date.now();
         let today = new Date(timeElapsed);
 
-        return today.toISOString().split('T')[0];
+        let hours = today.getHours();
+        let minutes = today.getMinutes();
+        let seconds = today.getSeconds();
+
+        return today.toISOString().split('T')[0] + " " + hours + ":" + minutes + ":" + seconds;
     }
 
     get isVictory()

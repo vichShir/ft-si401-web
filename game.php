@@ -131,50 +131,15 @@
 
                 foreach(array_reverse($result) as $partida)
                 {
+                    $username = $_SESSION["username"];
+                    $status = ($partida["status"] === "D") ? "DERROTA" : "VITÓRIA";
                     $date = new DateTime($partida["dtpartida"]);
-                    $gamemode = ($partida["modo"] === "C") ? "Clássica" : "Rivotril";
-                    $status = ($partida["status"] === "D") ? "Derrota" : "Vitória";
-                    echo "<!-- Conteudo Partida -->
-                        <div>
-                        <section class='sec-hist'>
-                        <!-- Primeira linha de conteudos(3) -->
-                        <div class='hist-row'>
-                        <!-- Player Name -->
-                        <h4 class='to-left'>" . $_SESSION["username"] . "</h4>
-                        <!-- Game Status -->
-                        <h4 class='game-status'>" . $status . "</h4>
-                        <!-- Played Date -->
-                        <div class='side-two to-right'>
-                            <img src='images/icons/calendar_byFreepik.png' alt='tamanho-tabuleiro'>
-                            <p>" . $date->format('d/m/Y') . "</p>
-                        </div>
-                        </div>
-                        <!-- Segunda linha de conteudos(4) -->
-                        <div class='hist-row hist-row2'>
-                        <!-- TabSize -->
-                        <div class='side-two to-left'>
-                            <img src='images/icons/square-matrix.png' alt='coroa-dourada'>
-                            <p>" . $partida["tablinhas"] . "x" . $partida["tabcolunas"] . "</p>
-                        </div>
-                        <!-- Quantidade de Bombas -->
-                        <div class='side-two'>
-                            <img src='images/icons/round-bomb_byFreepik.png' alt='numero-bombas'>
-                            <p>" . $partida["numbombas"] . "</p>
-                            </div>
-                        <!-- Game Mode -->
-                        <div class='side-two'>
-                            <img src='images/icons/rubik_byFreepik.png' alt='modo-jogo'>
-                            <p>" . $gamemode . "</p>
-                            </div>
-                        <!-- Time Played -->
-                        <div class='side-two to-right'>
-                            <img src='images/icons/clock.png' alt='tempo-jogado'>
-                            <p>" . $partida["tempojogado"] . "</p>
-                        </div>
-                        </div>
-                    </section>
-                    <hr class='hist-line'>
-                    </div>";
+                    $tabsize = $partida["tablinhas"] . "x" . $partida["tabcolunas"];
+                    $numbombas = $partida["numbombas"];
+                    $gamemode = ($partida["modo"] === "C") ? "Clássico" : "Rivotril";
+                    $tempojogado = $partida["tempojogado"];
+
+                    print_partida($username, $status, $date->format('d/m/Y H:i:s'), $tabsize, $numbombas, $gamemode, $tempojogado);
                 }
             }
             catch(DatabaseConnectionException $e)
@@ -188,6 +153,51 @@
             catch(PDOException $e)
             {
                 echo $e->getMessage();
+            }
+
+            function print_partida($username, $status, $date, $tabsize, $numbombas, $gamemode, $tempojogado)
+            {
+              echo "<!-- Conteudo Partida -->
+                    <div>
+                    <section class='sec-hist'>
+                    <!-- Primeira linha de conteudos(3) -->
+                    <div class='hist-row'>
+                    <!-- Player Name -->
+                    <h4 class='to-left'>" . $username . "</h4>
+                    <!-- Game Status -->
+                    <h4 class='game-status'>" . $status . "</h4>
+                    <!-- Played Date -->
+                    <div class='side-two to-right'>
+                        <img src='images/icons/calendar_byFreepik.png' alt='tamanho-tabuleiro'>
+                        <p>" . $date . "</p>
+                    </div>
+                    </div>
+                    <!-- Segunda linha de conteudos(4) -->
+                    <div class='hist-row hist-row2'>
+                    <!-- TabSize -->
+                    <div class='side-two to-left'>
+                        <img src='images/icons/square-matrix.png' alt='coroa-dourada'>
+                        <p>" . $tabsize . "</p>
+                    </div>
+                    <!-- Quantidade de Bombas -->
+                    <div class='side-two'>
+                        <img src='images/icons/round-bomb_byFreepik.png' alt='numero-bombas'>
+                        <p>" . $numbombas . "</p>
+                        </div>
+                    <!-- Game Mode -->
+                    <div class='side-two'>
+                        <img src='images/icons/rubik_byFreepik.png' alt='modo-jogo'>
+                        <p>" . $gamemode . "</p>
+                        </div>
+                    <!-- Time Played -->
+                    <div class='side-two to-right'>
+                        <img src='images/icons/clock.png' alt='tempo-jogado'>
+                        <p>" . $tempojogado . "</p>
+                    </div>
+                    </div>
+                </section>
+                <hr class='hist-line'>
+                </div>";
             }
         ?>
         </div>

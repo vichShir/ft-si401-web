@@ -132,7 +132,7 @@ class Database
 
     private function retrieveAllRows($statement)
     {
-        return $statement->fetchAll();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // Close the connection
@@ -171,14 +171,19 @@ class DBCommands
                 " WHERE codusuario=" . $codusuario;
     }
 
-    public static function GET_TOP_GAMEMATCHS()
-    {
-        return SQL_CMD_TOP_GAMEMATCHS;
-    }
-
     public static function GET_ALL_GAMEMATCHS_FROM_USER($codusuario)
     {
         return SQL_CMD_SELECT_ALL_FROM_GAMEMATCH . " WHERE codusuario = " . $codusuario;
+    }
+
+    public static function GET_ALL_GAMEMATCHS()
+    {
+        return SQL_CMD_SELECT_ALL_VICTORIES_GAMEMATCH;
+    }
+
+    public static function GET_TOP_GAMEMATCHS()
+    {
+        return SQL_CMD_TOP_GAMEMATCHS;
     }
 
     public static function INSERT_INTO_GAMEMATCH($codusuario, $tablinhas, $tabcolunas, $numbombas, $modo, $tempojogado, $status, $dtpartida)
