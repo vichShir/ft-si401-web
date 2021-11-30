@@ -98,6 +98,8 @@
 
             function sort_ranking($unsort_ranking)
             {
+                if(empty($unsort_ranking)) return;
+
                 // Obtain a list of columns
                 foreach ($unsort_ranking as $key => $row)
                 {
