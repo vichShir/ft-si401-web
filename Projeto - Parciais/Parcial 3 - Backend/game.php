@@ -1,5 +1,5 @@
 <?php
-  include('resources/php/session.php');
+    require('resources/php/session.php');
 ?>
 
 <!DOCTYPE html>
@@ -121,26 +121,55 @@
         <hr>
 
         <div id="hist-partidas">
-          <?php
-            include "resources/php/database.php";
+        <?php
+            require "resources/php/database.php";
+            try
+            {
+                $db = new Database();
+                $result = $db->getAllRowsFromQuery(DBCommands::GET_ALL_GAMEMATCHS_FROM_USER($_SESSION["codusuario"]));
+                $db->close();
 
-            $db = new Database();
-            $cmd = new DBCommands();
-            $result = $db->getAllRowsFromQuery($cmd::GET_ALL_GAMEMATCH($_SESSION["codusuario"]));
+                foreach(array_reverse($result) as $partida)
+                {
+                    $username = $_SESSION["username"];
+                    $status = ($partida["status"] === "D") ? "DERROTA" : "VITÓRIA";
+                    $date = new DateTime($partida["dtpartida"]);
+                    $tabsize = $partida["tablinhas"] . "x" . $partida["tabcolunas"];
+                    $numbombas = $partida["numbombas"];
+                    $gamemode = ($partida["modo"] === "C") ? "Clássico" : "Rivotril";
+                    $tempojogado = $partida["tempojogado"];
 
-            foreach($result as $partida)
+                    print_partida($username, $status, $date->format('d/m/Y H:i:s'), $tabsize, $numbombas, $gamemode, $tempojogado);
+                }
+            }
+            catch(DatabaseConnectionException $e)
+            {
+                echo $e->errorMessage();
+            }
+            catch(DatabaseQueryException $e)
+            {
+                echo $e->errorMessage();
+            }
+            catch(PDOException $e)
+            {
+                echo $e->getMessage();
+            }
+
+            function print_partida($username, $status, $date, $tabsize, $numbombas, $gamemode, $tempojogado)
+            {
               echo "<!-- Conteudo Partida -->
+                    <div>
                     <section class='sec-hist'>
                     <!-- Primeira linha de conteudos(3) -->
                     <div class='hist-row'>
                     <!-- Player Name -->
-                    <h4 class='to-left'>" . $_SESSION["username"] . "</h4>
+                    <h4 class='to-left'>" . $username . "</h4>
                     <!-- Game Status -->
-                    <h4 class='game-status'>" . $partida["status"] . "</h4>
+                    <h4 class='game-status'>" . $status . "</h4>
                     <!-- Played Date -->
                     <div class='side-two to-right'>
                         <img src='images/icons/calendar_byFreepik.png' alt='tamanho-tabuleiro'>
-                        <p>" . $partida["dtpartida"] . "</p>
+                        <p>" . $date . "</p>
                     </div>
                     </div>
                     <!-- Segunda linha de conteudos(4) -->
@@ -148,27 +177,29 @@
                     <!-- TabSize -->
                     <div class='side-two to-left'>
                         <img src='images/icons/square-matrix.png' alt='coroa-dourada'>
-                        <p>" . $partida["tablinhas"] . "x" . $partida["tabcolunas"] . "</p>
+                        <p>" . $tabsize . "</p>
                     </div>
                     <!-- Quantidade de Bombas -->
                     <div class='side-two'>
                         <img src='images/icons/round-bomb_byFreepik.png' alt='numero-bombas'>
-                        <p>" . $partida["numbombas"] . "</p>
+                        <p>" . $numbombas . "</p>
                         </div>
                     <!-- Game Mode -->
                     <div class='side-two'>
                         <img src='images/icons/rubik_byFreepik.png' alt='modo-jogo'>
-                        <p>" . $partida["modo"] . "</p>
+                        <p>" . $gamemode . "</p>
                         </div>
                     <!-- Time Played -->
                     <div class='side-two to-right'>
                         <img src='images/icons/clock.png' alt='tempo-jogado'>
-                        <p>" . $partida["tempojogado"] . "</p>
+                        <p>" . $tempojogado . "</p>
                     </div>
                     </div>
                 </section>
-                <hr class='hist-line'>";
-          ?>
+                <hr class='hist-line'>
+                </div>";
+            }
+        ?>
         </div>
 
     </section>

@@ -21,23 +21,33 @@
    <section>
    	<h3>Criando Tabela</h3>
       <?php
-			include "database.php";
-        	echo "<h4>Criando tabelas no banco de dados...</h4>";
-			$sql_usuario = SQL_CMD_CREATE_USER;
-			$sql_partida = SQL_CMD_CREATE_GAMEMATCH;
+        require "database.php";
 
-			try
-			{
-				(new Database())->executeCommand($sql_usuario);
-				(new Database())->executeCommand($sql_partida);
-				echo "<h4>Tabelas criadas com sucesso!</h4>";
-			}
-			catch(DataException $e)
-			{
-				echo "<h4>" . $e->errorMessage() . "</h4>";
-			}
+        echo "<h4>Criando tabelas no banco de dados...</h4>";
+        $sql_usuario = SQL_CMD_CREATE_USER;
+        $sql_partida = SQL_CMD_CREATE_GAMEMATCH;
+        try
+        {
+            $db = new Database();
+            $db->executeCommand($sql_usuario);
+            $db->executeCommand($sql_partida);
+            $db->close();
+            echo "<h4>Tabelas criadas com sucesso!</h4>";
+        }
+        catch(DatabaseConnectionException $e)
+        {
+            echo "<h4>" . $e->errorMessage() . "</h4>";
+        }
+        catch(DatabaseExecuteException $e)
+        {
+            echo "<h4>" . $e->errorMessage() . "</h4>";
+        }
+        catch(Exception $e)
+        {
+            echo "<h4>Ocorreu um erro inesperado. " . $e->getMessage() . "</h4>";
+        }
 		?>
-		<h4><a href="../../index.php" style="color: #000;">Login</a></h4>
+		<h4><a href="../../index.php" style="color: #000;">Tela de login</a></h4>
 	</section>
 
 	<!-- Rodapé -->

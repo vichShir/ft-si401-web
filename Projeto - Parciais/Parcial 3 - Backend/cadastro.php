@@ -1,46 +1,46 @@
 <?php
-    include "resources/php/database.php";
-    session_start();
+    require "resources/php/login-session.php";
+    require "resources/php/database.php";
 
     if(isset($_POST["username"]))
     {
         try
         {
-            $cmd = new DBCommands();
-
-            // Insert
-            $cpf = $_POST["cpf"]; 
-            $nome = $_POST["name"]; 
-            $dtnascimento = $_POST["birth"]; 
+            $nome = $_POST["name"];
+            $dtnascimento = $_POST["birth"];            
+            $cpf = $_POST["cpf"];
             $telefone = $_POST["phone"];
             $email = $_POST["email"];
             $username = $_POST["username"];
             $password = $_POST["pwd"];
 
             $db = new Database();
-            $insertCMD = $cmd::INSERT_INTO_USER($cpf, $nome, $dtnascimento, $telefone, $email, $username, $password);
-            $db->executeCommand($insertCMD);
+            $sql_cadastro = DBCommands::INSERT_INTO_USER($cpf, $nome, $dtnascimento, $telefone, $email, $username, $password);
+            $sql_retrieve = DBCommands::GET_USER_LOGIN($username, $password);
+            
+            $db->executeCommand($sql_cadastro);
+            $result = $db->getRowFromQuery($sql_retrieve);
+            $db->close();
 
-            $db = new Database();
-            $sql = $cmd::GET_USER_LOGIN($_POST["username"], $_POST["pwd"]);
-            $result = $db->getRowFromQuery($sql);
-
-            $_SESSION['codusuario'] = $result["codusuario"];
-            $_SESSION['username'] = $result["username"];
-            header("Location: game.php");
+            $_SESSION["codusuario"] = $result["codusuario"];
+            $_SESSION["username"] = $result["username"];
+            header("Location:game.php");
+            die;
         }
-        catch(DatabaseException $e)
+        catch(DatabaseConnectionException $e)
         {
-            $error = "Erro ao cadastrar. Tente novamente.";
+            $error = "Banco de dados inoperante. Fale com o administrador do site.";
+        }
+        catch(DatabaseExecuteException $e)
+        {
+            $error = "Número de CPF ou username em uso. Tente utilizar outro ou tente novamente.";
+        }
+        catch(Exception $e)
+        {
+            $error = "Ocorreu um erro inesperado. " . $e->getMessage();
         }
     }
-
-    if(isset($_SESSION['username']))
-    {
-        header("Location: game.php");
-        die();
-    }
-?>
+?> 
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -80,7 +80,7 @@
             <p class="form-input">Nome de usuário</p>
             <input type="text" name="username" placeholder="Insira seu nome de usuário" size="30" maxlength="30" required>
             <p class="form-input">Senha</p>
-            <input type="password" name="pwd" placeholder="Insira sua senha" size="20" maxlength="20" required>
+            <input type="password" name="pwd" placeholder="Insira sua senha" size="20" minlength="8" maxlength="20" required>
 
             <!-- atributo onclick é temporário p/ esta Parcial 1 -->
             <p><input id="form-button" type="submit" value="Cadastrar"></p>
@@ -89,7 +89,7 @@
         <!-- Link para voltar ao login -->
         <p><a href="index.php">Login</a></p>
 
-        <div style = "font-size:11px; color:#cc0000; margin-top:10px"><?php echo isset($error) ? $error : ""; ?></div>
+        <div style = "font-size:12px; color:#cc0000; margin-top:10px"><?php echo isset($error) ? $error : ""; ?></div>
     </section>
 
     <!-- Rodapé -->

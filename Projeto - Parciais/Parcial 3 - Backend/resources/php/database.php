@@ -1,12 +1,32 @@
 <?php
 require("__config.php");
 
-class DatabaseException extends Exception
+class DatabaseConnectionException extends Exception
 {
     public function errorMessage() 
     {
         // Error message
-        $errorMsg = 'Erro em '.$this->getFile().': <b>'.$this->getMessage().'</b>';
+        $errorMsg = 'Erro ao se conectar ao Banco de Dados: '.$this->getFile().': <b>'.$this->getMessage().'</b>';
+        return $errorMsg;
+    }
+}
+
+class DatabaseExecuteException extends Exception
+{
+    public function errorMessage() 
+    {
+        // Error message
+        $errorMsg = 'Erro ao tentar processar o requerimento: '.$this->getFile().': <b>'.$this->getMessage().'</b>';
+        return $errorMsg;
+    }
+}
+
+class DatabaseQueryException extends Exception
+{
+    public function errorMessage() 
+    {
+        // Error message
+        $errorMsg = 'Erro ao retornar a consulta: '.$this->getFile().': <b>'.$this->getMessage().'</b>';
         return $errorMsg;
     }
 }
@@ -17,8 +37,9 @@ class Database
     private $conn;
 
     // Variables to connect to database
-    private const USING_CLOUD = AZURE_CLOUD_MARIADB;
+    private const USING_SSL = USING_SSL_CONNECTION;
     private const HOSTNAME = DB_SERVER;
+    private const PORT = DB_PORT;
     private const USERNAME = DB_USERNAME;
     private const PASSWORD = DB_PASSWORD;
     private const DATABASE = DB_DATABASE;
@@ -33,9 +54,9 @@ class Database
     {
         try
         {
-            $url = "mysql:host=" . self::HOSTNAME . ";dbname=" . self::DATABASE;
+            $url = "mysql:host=" . self::HOSTNAME . ";port=" . self::PORT . ";dbname=" . self::DATABASE;
 
-            if(self::USING_CLOUD)
+            if(self::USING_SSL)
             {
                 $this->options = array(
                     PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
@@ -49,7 +70,7 @@ class Database
         }
         catch(PDOException $e)
         {
-            throw new DatabaseException("Ocorreu um erro para conectar ao SGBD: " . $e->getMessage());
+            throw new DatabaseConnectionException($e->getMessage());
         }
     }
 
@@ -57,27 +78,29 @@ class Database
     {
         try
         {
-            $this->conn->exec($command);
-            $this->close(); // Close connection
+            $count = $this->conn->exec($command);
         }
         catch(PDOException $e)
         {
-            throw new DatabaseException("Ocorreu um erro no comando: " . $e->getMessage());
+            throw new DatabaseExecuteException("Comando invalidado.");
         }
     }
 
     public function getRowFromQuery($command)
     {
-        $stmt = $this->conn->query($command); // Returns an object from class PDOStatement
-        $this->conn->exec($command);
-
-        if($this->validateQuery($stmt) === false)
+        try
         {
-            throw new DatabaseException();
-        }
+            $stmt = $this->conn->query($command); // Returns an object from class PDOStatement
 
-        // Close the connection
-        $this->close();
+            if($this->validateQuery($stmt) === false)
+            {
+                throw new DatabaseQueryException("Credenciais incorretas.");
+            }
+        }
+        catch(PDOException $e)
+        {
+            throw new Exception("Ocorreu um erro inesperado: " . $e->getMessage());
+        }
 
         return $this->retrieveNextRow($stmt);
     }
@@ -87,15 +110,11 @@ class Database
         try
         {
             $stmt = $this->conn->query($command); // Returns an object from class PDOStatement
-            $this->conn->exec($command);
         }
         catch(PDOException $e)
         {
-            throw new DatabaseException("Ocorreu um erro para pegar as linhas: " . $e->getMessage());
+            throw new DatabaseQueryException($e->getMessage());
         }
-
-        // Close the connection
-        $this->close();
 
         // Return query result
         return $this->retrieveAllRows($stmt);
@@ -113,11 +132,11 @@ class Database
 
     private function retrieveAllRows($statement)
     {
-        return $statement->fetchAll();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // Close the connection
-    private function close()
+    public function close()
     {
         $this->conn = null;
     }
@@ -129,6 +148,7 @@ class DBCommands
     {
         return SQL_CMD_SELECT_ID_NAME_FROM_USER . " WHERE username = '$username' and password = '$password'";
     }
+
     public static function INSERT_INTO_USER($cpf, $nomecompleto, $dtnascimento, $telefone, $email, $username, $password)
     {
         return SQL_CMD_INSERT_INTO_USER .
@@ -141,10 +161,31 @@ class DBCommands
                 $password . "')";
     }
 
-    public static function GET_ALL_GAMEMATCH($codusuario)
+    public static function UPDATE_USER($codusuario, $nomecompleto, $telefone, $email, $password)
+    {
+        return SQL_CMD_UPDATE_USER .
+                "nomecompleto='" . $nomecompleto . "'," .
+                "telefone='" . $telefone . "'," .
+                "email='" . $email . "'," .
+                "password='" . $password . "'" .
+                " WHERE codusuario=" . $codusuario;
+    }
+
+    public static function GET_ALL_GAMEMATCHS_FROM_USER($codusuario)
     {
         return SQL_CMD_SELECT_ALL_FROM_GAMEMATCH . " WHERE codusuario = " . $codusuario;
     }
+
+    public static function GET_ALL_GAMEMATCHS()
+    {
+        return SQL_CMD_SELECT_ALL_VICTORIES_GAMEMATCH;
+    }
+
+    public static function GET_TOP_GAMEMATCHS()
+    {
+        return SQL_CMD_TOP_GAMEMATCHS;
+    }
+
     public static function INSERT_INTO_GAMEMATCH($codusuario, $tablinhas, $tabcolunas, $numbombas, $modo, $tempojogado, $status, $dtpartida)
     {
         return SQL_CMD_INSERT_INTO_GAMEMATCH .
@@ -158,4 +199,4 @@ class DBCommands
                 $dtpartida . "')";
     }                                   
 }
-?> 
+?>

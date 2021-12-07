@@ -1,5 +1,42 @@
 <?php
-  include('resources/php/session.php');
+    require('resources/php/session.php');
+    require('resources/php/database.php');
+
+    if(isset($_POST["name"]))
+    {
+        try
+        {
+            $id = $_SESSION["codusuario"];
+            $nome = $_POST["name"];
+            $telefone = $_POST["phone"];
+            $email = $_POST["email"];
+            $password = $_POST["pwd"];
+            $confirm_password = $_POST["confirm-pwd"];
+
+            if($password !== $confirm_password)
+            {
+                throw new Exception("As duas senhas são diferentes.");
+            }
+
+            $db = new Database();
+            $sql_update = DBCommands::UPDATE_USER($id, $nome, $telefone, $email, $password);
+            $db->executeCommand($sql_update);
+            $db->close();
+            $message = "Dados atualizados com sucesso!";
+        }
+        catch(DatabaseConnectionException $e)
+        {
+            $message = "Banco de dados inoperante. Fale com o administrador do site.";
+        }
+        catch(DatabaseExecuteException $e)
+        {
+            $message = "Não foi possível atualizar seus dados.<br>Tente novamente.";
+        }
+        catch(Exception $e)
+        {
+            $message = "Ocorreu um erro: " . $e->getMessage();
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +67,7 @@
     <section class="sec-panel sec-form">
         <h2>Editar Cadastro</h2>
         <hr>
-        <form name="formulario-edit">
+        <form name="formulario-edit" action="edit-profile.php" method="POST">
             <p class="form-input">Nome Completo</p>
             <input type="text" name="name" placeholder="Insira seu nome completo" size="40" maxlength="40" required>
             <p class="form-input">Telefone</p>
@@ -38,16 +75,19 @@
             <p class="form-input">Email</p>
             <input type="email" name="email" placeholder="Exemplo: user@email.com" size="40" maxlength="40" required>
             <p class="form-input">Nova senha</p>
-            <input type="password" name="pwd" placeholder="Insira sua nova senha" size="20" maxlength="20" required>
+            <input type="password" name="pwd" placeholder="Insira sua nova senha" size="20" minlength="8" maxlength="20" required>
             <p class="form-input">Confirme sua nova senha</p>
-            <input type="password" name="pwd" placeholder="Digite novamente sua nova senha" size="20" maxlength="20" required>
+            <input type="password" name="confirm-pwd" placeholder="Digite novamente sua nova senha" size="20"  minlength="8" maxlength="20" required>
 
             <!-- atributo onclick é temporário p/ esta Parcial 1 -->
-            <p><input id="form-button" type="submit" value="Editar" onclick="window.location.href = 'game.php'"></p>
+            <p><input id="form-button" type="submit" value="Editar"></p>
         </form>
 
         <!-- Link para voltar ao game -->
         <p><a href="game.php">Voltar</a></p>
+
+        <div style = "font-size:12px; color:#FFF; margin-top:10px"><?php echo isset($message) ? $message : ""; ?></div>
+
     </section>
 
     <!-- Rodapé -->

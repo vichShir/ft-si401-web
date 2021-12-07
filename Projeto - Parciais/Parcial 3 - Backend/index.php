@@ -1,30 +1,36 @@
 <?php
-    include "resources/php/database.php";
-    session_start();
+    require "resources/php/login-session.php";
+    require "resources/php/database.php";
 
     if(isset($_POST["username"]))
     {
-      try
-      {
-        $db = new Database();
-        $cmd = new DBCommands();
-        $sql = $cmd::GET_USER_LOGIN($_POST["username"], $_POST["pwd"]);
-        $result = $db->getRowFromQuery($sql);
+        $username = $_POST["username"];
+        $password = $_POST["pwd"];
 
-        $_SESSION['codusuario'] = $result["codusuario"];
-        $_SESSION['username'] = $result["username"];
-        header("location: game.php");
-      }
-      catch(DatabaseException $e)
-      {
-        $error = "Usuário ou senha incorretos. Faça seu cadastro ou tente novamente.";
-      }
-    }
+        try
+        {
+            $db = new Database();
+            $sql_login = DBCommands::GET_USER_LOGIN($username, $password);
+            $result = $db->getRowFromQuery($sql_login);
+            $db->close();
 
-    if(isset($_SESSION['username']))
-    {
-        header("Location: game.php");
-        die();
+            $_SESSION["codusuario"] = $result["codusuario"];
+            $_SESSION["username"] = $result["username"];
+            header("Location:game.php");
+            die;
+        }
+        catch(DatabaseConnectionException $e)
+        {
+            $error = "Banco de dados inoperante. Fale com o administrador do site.";
+        }
+        catch(DatabaseQueryException $e)
+        {
+            $error = "Usuário ou senha incorretos.<br>Faça seu cadastro ou tente novamente.";
+        }
+        catch(Exeception $e)
+        {
+            $error = "Ocorreu um erro inesperado. Contate um administrador ou tente novamente.";
+        }
     }
 ?>
 
@@ -54,16 +60,16 @@
         <hr>
         <form name="formulario-login" action="index.php" method="POST">
             <p class="form-input"><input type="text" name="username" placeholder="Usuário" size="30" maxlength="30" required></p>
-            <p class="form-input"><input type="password" name="pwd" placeholder="Senha" size="20" maxlength="20" required></p>
+            <p class="form-input"><input type="password" name="pwd" placeholder="Senha" size="20"  minlength="8" maxlength="20" required></p>
 
             <!-- atributo onclick é temporário p/ esta Parcial 1 -->
-            <p><input id="form-button" type="submit" value="Entrar"></p>
+            <p><input id="form-button" type="submit" value="Entrar" ></p>
         </form>
 
         <!-- Link para cadastro -->
         <p><a href="cadastro.php">Cadastrar</a></p>
 
-        <div style = "font-size:11px; color:#cc0000; margin-top:10px"><?php echo isset($error) ? $error : ""; ?></div>
+        <div style = "font-size:12px; color:#cc0000; margin-top:10px"><?php echo isset($error) ? $error : ""; ?></div>
 
     </section>
 
