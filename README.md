@@ -29,3 +29,47 @@ As atividades individuais e o projeto final compõem a nota final da disciplina 
 - 👦 Jonatas Goes da Silva
 - 👦 Matheus Eduardo da Silva
 - 👦 [Victor Yukio Shirasuna](https://github.com/vichShir) (vichShir)
+
+### 📖 Referências
+* https://www.w3schools.com/php/php_sessions.asp
+* https://www.w3schools.com/Php/keyword_static.asp
+* https://www.w3schools.com/php/php_functions.asp
+* https://www.php.net/manual/pt_BR/function.unset.php
+* https://www.php.net/manual/pt_BR/function.array-multisort.php
+* https://chirag-dave.medium.com/sort-multidimensional-array-by-multiple-keys-php-f1cbb378ec34
+* https://www.php.net/manual/pt_BR/datetime.format.php
+* https://www.tutorialspoint.com/php/php_mysql_login.htm
+* https://www.w3schools.com/php/php_date.asp
+* https://www.php.net/manual/pt_BR/language.operators.comparison.php
+* https://www.tutorialrepublic.com/php-tutorial/php-include-files.php
+* https://www.php.net/manual/pt_BR/function.array-reverse.php
+* https://www.php.net/manual/pt_BR/pdo.exec.php
+* https://www.w3schools.com/php/php_mysql_connect.asp
+* https://www.php.net/manual/pt_BR/pdo.setattribute.php
+* https://www.php.net/manual/pt_BR/ref.pdo-mysql.php
+* https://www.php.net/manual/pt_BR/language.exceptions.php
+* https://www.phptutorial.net/php-pdo/php-fetchall/
+* https://www.php.net/manual/pt_BR/pdostatement.fetchall.php
+* https://www.php.net/manual/pt_BR/pdostatement.fetch.php
+* https://stackoverflow.com/questions/5456626/php-pdo-returning-single-row
+* https://www.w3schools.com/php/php_exception.asp
+* https://www.w3schools.com/js/js_date_formats.asp
+* https://stackoverflow.com/questions/11701118/get-first-child-node-of-specific-type-javascript
+* https://stackoverflow.com/questions/22438798/add-innerhtml-before-an-element-in-javascript
+* https://www.w3schools.com/js/js_date_methods.asp
+* https://www.w3schools.com/jsref/jsref_encodeuricomponent.asp
+* https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
+* https://stackoverflow.com/questions/406316/how-to-pass-data-from-javascript-to-php-and-vice-versa
+* https://stackoverflow.com/questions/1535631/static-variables-in-javascript
+* https://dev.to/gspteck/create-a-stopwatch-in-javascript-2mak
+* https://pt.stackoverflow.com/questions/128608/como-fazer-timer-em-javascript
+* https://www.w3schools.com/js/js_class_static.asp
+* https://stackoverflow.com/questions/2420135/hide-html-element-by-id/2420205
+* https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+* https://www.w3schools.com/js/js_random.asp
+* https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Classes
+* https://www.w3schools.com/js/js_arrays.asp
+* https://www.geeksforgeeks.org/remove-all-the-child-elements-of-a-dom-node-in-javascript/
+* https://www.devmedia.com.br/objetos-e-vetores-em-javascript/29986
+* https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array
+* https://www.geeksforgeeks.org/how-to-dynamically-create-new-elements-in-javascript/
